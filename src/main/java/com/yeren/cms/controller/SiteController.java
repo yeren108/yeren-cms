@@ -1,0 +1,230 @@
+package com.yeren.cms.controller;
+
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import sun.print.resources.serviceui;
+
+import com.yeren.cms.modle.Site;
+import com.yeren.cms.service.SiteService;
+import com.yeren.cms.util.PageBean;
+
+@Controller
+@RequestMapping("/site")
+public class SiteController {
+	@Autowired
+	SiteService siteService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(SiteController.class);
+	
+	/**
+	 * 非页面用的
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value="/list", method = RequestMethod.GET)
+	@ResponseBody
+	public JSONArray listAll(HttpServletRequest request, HttpServletResponse response){
+		logger.info("====================调用SiteController-->接口：/list====================");
+		List<Site> list = siteService.findAll();
+		JSONArray jsonArray=new JSONArray();
+		jsonArray.addAll(list);
+		return jsonArray;
+	}
+	
+	/**
+	 * 页面用的
+	 * @param request
+	 * @param response
+	 * @return
+	 */
+	@RequestMapping(value="/listByPage", method = RequestMethod.GET)
+	@ResponseBody
+	public JSONObject listByPage(HttpServletRequest request, HttpServletResponse response){
+		logger.info("====================调用SiteController-->接口：/listByPage====================");
+		String page=request.getParameter("page");
+		if("".equals(page)||"null".equals(page)||page==null){
+			page="1";
+		}
+		String rows=request.getParameter("rows");
+		if("".equals(rows)||"null".equals(rows)||rows==null){
+			rows="7";
+		}
+		
+		
+		int sum = siteService.getSum();//总量
+		
+		PageBean pb=new PageBean(Integer.parseInt(page), Integer.parseInt(rows));
+		Site site=new Site();//暂时不用
+		List<Site> list = siteService.findAll(site, pb);
+		JSONArray jsonArray=new JSONArray();
+		jsonArray.addAll(list);
+		JSONObject jsonObject=new JSONObject();
+		jsonObject.put("jsonArray", jsonArray);
+		jsonObject.put("sum", sum);
+		return jsonObject;
+	}
+	
+	
+	
+	@RequestMapping(value="/find", method = RequestMethod.GET)
+	@ResponseBody
+	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response,String attribute){
+		logger.info("====================调用SiteController-->接口：/find====================");
+		List<Site> list = siteService.findByAttribute(attribute);
+		JSONArray jsonArray=new JSONArray();
+		jsonArray.addAll(list);
+		return jsonArray;
+	}
+	
+	@RequestMapping(value="/find-{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public JSONArray findById(HttpServletRequest request, HttpServletResponse response,String id){
+		logger.info("====================调用SiteController-->接口：/find-{id}====================");
+		List<Site> list = siteService.findById(Integer.parseInt(id));
+		list.get(0).getName();
+		JSONArray jsonArray=new JSONArray();
+		jsonArray.addAll(list);//TODO 要写
+		return jsonArray;
+	}
+	
+	@RequestMapping(value="/add",method=RequestMethod.POST)
+	@ResponseBody
+	public void add(HttpServletRequest request, HttpServletResponse response,Site site) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/add====================");
+		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
+		site.setCreateTime(dateStr);//创建时间
+		site.setUpdateTime(dateStr);//更新时间
+		site.setStatus("1");//默认上线
+		site.setSort(1);//默认排序
+		siteService.save(site);
+		response.sendRedirect("../crud/site/siteList.jsp");
+	}
+	
+	
+	
+	@RequestMapping(value="/update",method=RequestMethod.POST)
+	@ResponseBody
+	public void update(HttpServletRequest request, HttpServletResponse response,Site site) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/update====================");
+		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
+		site.setUpdateTime(dateStr);//更新时间
+		siteService.update(site);
+		response.sendRedirect("../crud/site/siteList.jsp");
+	}
+	
+	@RequestMapping(value="/delete")
+	@ResponseBody
+	public JSONObject delete(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/delete====================");
+		int softDelete = siteService.softDelete(id);
+		JSONObject json=new JSONObject();
+		if(softDelete>0){
+			json.put("success", true);
+			json.put("message", softDelete);
+		}else {
+			json.put("success", false);
+			json.put("message", softDelete);
+		}
+		return json;
+	}
+	
+	@RequestMapping(value="/changeStatus")
+	@ResponseBody
+	public void changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/changeStatus====================");
+		siteService.changeStatus(id);
+		response.sendRedirect("../crud/site/siteList.jsp");
+	}
+	
+	@RequestMapping(value="/down")
+	@ResponseBody
+	public void down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/down====================");
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		java.util.Date uDate=new java.util.Date();
+		java.sql.Date sDate=new java.sql.Date(uDate.getTime());
+		String strDate=df.format(sDate);
+		List<Site> siteList = siteService.findById(id);
+		List<Site> findAll = siteService.findAll();
+		int[] array=new int[findAll.size()];
+		for(int i=0;i<findAll.size();i++){
+			array[i]=findAll.get(i).getSort();
+		}
+		for(int i=0;i<array.length;i++){
+			if(siteList.get(0).getSort()==array[i]){
+				if(i+1!=array.length){
+					array[i]=array[i+1];
+					array[i+1]=siteList.get(0).getSort();
+					findAll.get(i).setSort(array[i]);
+					findAll.get(i).setUpdateTime(strDate);
+					siteService.update(findAll.get(i));
+					findAll.get(i+1).setSort(array[i+1]);
+					findAll.get(i+1).setUpdateTime(strDate);
+					siteService.update(findAll.get(i+1));
+					break;
+				}
+			}
+		}
+		response.sendRedirect("../crud/site/siteList.jsp");
+	}
+	
+	
+	@RequestMapping(value="/up")
+	@ResponseBody
+	public void up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/up====================");
+		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		java.util.Date uDate=new java.util.Date();
+		java.sql.Date sDate=new java.sql.Date(uDate.getTime());
+		String strDate=df.format(sDate);
+		List<Site> siteList = siteService.findById(id);
+		List<Site> findAll = siteService.findAll();
+		int[] array=new int[findAll.size()];
+		for(int i=0;i<findAll.size();i++){
+			array[i]=findAll.get(i).getSort();
+		}
+		for(int i=0;i<array.length;i++){
+			if(siteList.get(0).getSort()==array[i]){
+				if(i!=0){
+					array[i]=array[i-1];
+					array[i-1]=siteList.get(0).getSort();
+					findAll.get(i-1).setSort(array[i-1]);
+					findAll.get(i-1).setUpdateTime(strDate);
+					siteService.update(findAll.get(i-1));
+					findAll.get(i).setSort(array[i]);
+					findAll.get(i).setUpdateTime(strDate);
+					siteService.update(findAll.get(i));
+					break;
+				}
+			}
+		}
+		response.sendRedirect("../crud/site/siteList.jsp");
+	}
+	
+	
+	
+	public static void main(String[] args) {
+		Date date=new Date(System.currentTimeMillis());
+		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
+		System.out.println(dateStr);
+	}
+}
