@@ -56,12 +56,12 @@
 				<thead>
 					<tr>
 						<th width="3%">ID</th><!-- 不变 -->
-						<th width="22%">标题名称</th>
-						<th width="22%">栏目</th>
+						<th width="15%">标题名称</th>
+						<th width="15%">栏目</th>
 						<th width="5%">排序</th><!-- 不变 -->
 						<th width="8%">在线状态</th><!-- 不变 -->
 						<th width="15%">更新时间</th>
-						<th width="24%" style="text-align: center;">操作</th>
+						<th width="39%" style="text-align: center;">操作</th>
 					</tr>
 				</thead>
 				<tbody id="tbody">

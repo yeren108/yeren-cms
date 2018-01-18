@@ -59,16 +59,16 @@
 				<thead>
 					<tr>
 						<th width="3%">ID</th><!-- 不变 -->
-						<th width="16%">链接名称</th>
-						<th width="14%">URL地址</th>
-						<th width="16%">栏目</th>
+						<th width="14%">链接名称</th>
+						<th width="8%">URL地址</th>
+						<th width="14%">栏目</th>
 						<th width="5%">排序</th><!-- 不变 -->
-						<th width="8%">在线状态</th><!-- 不变 -->
-						<th width="15%">更新时间</th>
-						<th width="24%" style="text-align: center;">操作</th>
+						<th width="5%">line</th><!-- 不变 -->
+						<th width="13%">更新时间</th>
+						<th width="39%" style="text-align: center;">操作</th>
 					</tr>
 				</thead>
-				<tbody id="tbody">
+				<tbody id="tbody" style="font-size: xx-small;">
 					
 				</tbody>
 			</table>
