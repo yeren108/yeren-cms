@@ -9,7 +9,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>新增栏目</title>
+<title>新增标题</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0 user-scalable=no">
 <link href="${pageContext.request.contextPath}/static/bootstrap-3.3.5-dist/css/bootstrap.min.css"
@@ -19,21 +19,40 @@
 </head>
 
 <body>
-	<jsp:include page="/crud/navi.jsp" flush="true" />
-	<form class="form-horizontal" action="category/add" method="post">
+	<jsp:include page="../../crud/navi.jsp" flush="true" />
+	<form class="form-horizontal" action="article/add" method="post">
 		<div class="form-group" style="margin:4px;width:100%;">
-			<label style="width: 100px;text-align: right;">站点：</label>
+			<label style="width: 100px;text-align: right;">栏目：</label>
 			<label style="width: 196px;">
-				<select id="select" class="form-control" name="siteId">
-					
+				<select id="select" class="form-control" name="categoryId">
       			</select>
 			</label>
 		</div>
 		<div class="form-group" style="margin:4px;width:100%;">
-			<label style="width: 100px;text-align: right;display: inline-block;">栏目名称：</label>
+			<label style="width: 100px;text-align: right;display: inline-block;">标题：</label>
 			<div style="display: inline-block;">
-				<input type="text" class="form-control" name="name"
-					placeholder="栏目名称" value="${param.name}">
+				<input type="text" class="form-control" name="name" placeholder="标题" value="${param.name}">
+			</div>
+		</div>
+		<div class="form-group" style="margin:4px;width:100%;">
+			<label style="width: 100px;text-align: right;display: inline-block;">内容：</label>
+			<div style="display: inline-block;">
+				<input type="text" class="form-control" name="data" placeholder="内容" value="${param.data}">
+			</div>
+		</div>
+		
+		<%-- 
+		<div class="form-group" style="margin:4px;width:100%;">
+			<label style="width: 100px;text-align: right;display: inline-block;">内容2：</label>
+			<textarea rows="4" cols="30" name="data2" value="${param.data2}"></textarea>
+		</div>
+		 --%>
+		
+		
+		<div class="form-group" style="margin:4px;width:100%;">
+			<label style="width: 100px;text-align: right;display: inline-block;">链接地址：</label>
+			<div style="display: inline-block;">
+				<input type="text" class="form-control" name="url" placeholder="链接地址" value="${param.url}">
 			</div>
 		</div>
 		<div class="form-group" style="margin:4px;margin-left:48px;width:100%;">
@@ -48,10 +67,13 @@
 <script type="text/javascript">
 	
 	$("#select").one('click',function() {
+		
+		/* $("#select option").html(""), */
 		$.ajax({
 			type:"get",
-			url:"site/list",
+			url:"category/list",
 			success: function(data){
+					
 				for(var i=0;i<data.length;i++){
 					$("#select").append(new Option(data[i].name,data[i].id));
 				}

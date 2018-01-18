@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -99,6 +100,11 @@ public class CategoryController {
 		return jsonObject;
 	}
 
+	@RequestMapping(value = "/list_jsp", method = RequestMethod.GET)
+	public String listByPage() {
+		return "crud/category/categoryList";
+	}
+	
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
 	@ResponseBody
 	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response, String attribute) {
@@ -117,9 +123,13 @@ public class CategoryController {
 		return jsonArray;
 	}
 
+	@RequestMapping(value = "/add_jsp", method = RequestMethod.GET)
+	public String add() {
+		return "crud/category/categoryAdd";
+	}
+	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	@ResponseBody
-	public void add(HttpServletRequest request, HttpServletResponse response, Category category) throws ServletException, IOException {
+	public String add(HttpServletRequest request, HttpServletResponse response, Category category) throws ServletException, IOException {
 		logger.info("====================调用CategoryController-->接口：/add====================");
 		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
 		category.setSort(1);//默认排序
@@ -127,18 +137,34 @@ public class CategoryController {
 		category.setCreateTime(dateStr);//创建时间
 		category.setUpdateTime(dateStr);//更新时间
 		categoryService.save(category);
-		response.sendRedirect("../crud/category/categoryList.jsp");
+		return "crud/category/categoryList";
 	}
 
+	@RequestMapping(value = "/update_jsp", method = RequestMethod.GET)
+	public String update(String id,String name,String siteId,String siteName,String parentId,String sort,String status,String createTime,ModelMap model) {
+		model.addAttribute("id", id);
+		model.addAttribute("name", name);
+		model.addAttribute("siteId", siteId);
+		model.addAttribute("siteName", siteName);
+		model.addAttribute("parentId", parentId);
+		model.addAttribute("sort", sort);
+		model.addAttribute("status", status);
+		model.addAttribute("createTime", createTime);
+		return "crud/category/categoryUpdate";
+	}
+	
+	
+	
+	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
-	@ResponseBody
-	public void update(HttpServletRequest request, HttpServletResponse response, Category category) throws ServletException, IOException {
+	public String update(HttpServletRequest request, HttpServletResponse response, Category category) throws ServletException, IOException {
 		logger.info("====================调用CategoryController-->接口：/update====================");
 		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
 		category.setUpdateTime(dateStr);//更新时间
 		categoryService.update(category);
-		response.sendRedirect("../crud/category/categoryList.jsp");
+		return "crud/category/categoryList";
 	}
+	
 
 	@RequestMapping(value = "/delete")
 	@ResponseBody
@@ -152,16 +178,14 @@ public class CategoryController {
 	}
 	
 	@RequestMapping(value="/changeStatus")
-	@ResponseBody
-	public void changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+	public String changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
 		logger.info("====================调用CategoryController-->接口：/changeStatus====================");
 		categoryService.changeStatus(id);
-		response.sendRedirect("../crud/category/categoryList.jsp");
+		return "crud/category/categoryList";
 	}
 	
 	@RequestMapping(value="/down")
-	@ResponseBody
-	public void down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+	public String down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
 		logger.info("====================调用CategoryController-->接口：/down====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
@@ -188,13 +212,12 @@ public class CategoryController {
 				}
 			}
 		}
-		response.sendRedirect("../crud/category/categoryList.jsp");
+		return "crud/category/categoryList";
 	}
 	
 	
 	@RequestMapping(value="/up")
-	@ResponseBody
-	public void up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+	public String up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
 		logger.info("====================调用CategoryController-->接口：/up====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
@@ -221,7 +244,7 @@ public class CategoryController {
 				}
 			}
 		}
-		response.sendRedirect("../crud/category/categoryList.jsp");
+		return "crud/category/categoryList";
 	}
 	
 	private void updateMap(Map<String, String> map){

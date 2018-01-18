@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -115,6 +116,12 @@ public class ArticleController {
 		return jsonObject;
 	}
 	
+	
+	@RequestMapping(value = "/list_jsp", method = RequestMethod.GET)
+	public String listByPage() {
+		return "crud/article/articleList";
+	}
+	
 	@RequestMapping(value="/find", method = RequestMethod.GET)
 	@ResponseBody
 	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response,String attribute){
@@ -132,10 +139,13 @@ public class ArticleController {
 		return jsonArray;
 	}
 	
+	@RequestMapping(value = "/add_jsp", method = RequestMethod.GET)
+	public String add() {
+		return "crud/article/articleAdd";
+	}
 	
 	@RequestMapping(value="/add",method=RequestMethod.POST)
-	@ResponseBody
-	public void add(HttpServletRequest request, HttpServletResponse response,Article article) throws ServletException, IOException{
+	public String add(HttpServletRequest request, HttpServletResponse response,Article article) throws ServletException, IOException{
 		logger.info("====================调用ArticleController-->接口：/add====================");
 		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
 		//保存标题
@@ -163,8 +173,24 @@ public class ArticleController {
 		link.setName(article.getName());
 		link.setUrl(url);
 		linkService.save(link);
-		response.sendRedirect("../crud/article/articleList.jsp");
+		return "crud/article/articleList";
 	}
+	
+	@RequestMapping(value = "/update_jsp", method = RequestMethod.GET)
+	public String update(ModelMap model,String articleId,String articleName,String categoryId,String categoryName,String articleData,String linkUrl,String articleSort,String articleStatus,String articleCreateTime) {
+		model.addAttribute("articleId", articleId);
+		model.addAttribute("articleName", articleName);
+		model.addAttribute("categoryId", categoryId);
+		model.addAttribute("categoryName", categoryName);
+		model.addAttribute("articleData", articleData);
+		model.addAttribute("linkUrl", linkUrl);
+		model.addAttribute("articleSort", articleSort);
+		model.addAttribute("articleStatus", articleStatus);
+		model.addAttribute("articleCreateTime", articleCreateTime);
+		return "crud/article/articleUpdate";
+	}
+	
+	
 	
 	@RequestMapping(value="/updatePre",method=RequestMethod.POST)
 	@ResponseBody
@@ -189,8 +215,7 @@ public class ArticleController {
 	}
 	
 	@RequestMapping(value="/update",method=RequestMethod.POST)
-	@ResponseBody
-	public void update(HttpServletRequest request, HttpServletResponse response,Article article) throws ServletException, IOException{
+	public String update(HttpServletRequest request, HttpServletResponse response,Article article) throws ServletException, IOException{
 		logger.info("====================调用ArticleController-->接口：/update====================");
 		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
 		String data=request.getParameter("data");
@@ -214,7 +239,7 @@ public class ArticleController {
 		//更新article
 		article.setUpdateTime(dateStr);
 		articleService.update(article);
-		response.sendRedirect("../crud/article/articleList.jsp");
+		return "crud/article/articleList";
 	}
 	
 	@RequestMapping(value="/delete")
@@ -232,16 +257,14 @@ public class ArticleController {
 	}
 	
 	@RequestMapping(value="/changeStatus")
-	@ResponseBody
-	public void changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+	public String changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
 		logger.info("====================调用ArticleController-->接口：/changeStatus====================");
 		articleService.changeStatus(id);
-		response.sendRedirect("../crud/article/articleList.jsp");
+		return "crud/article/articleList";
 	}
 	
 	@RequestMapping(value="/down")
-	@ResponseBody
-	public void down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+	public String down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
 		logger.info("====================调用ArticleController-->接口：/down====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
@@ -268,13 +291,12 @@ public class ArticleController {
 				}
 			}
 		}
-		response.sendRedirect("../crud/article/articleList.jsp");
+		return "crud/article/articleList";
 	}
 	
 	
 	@RequestMapping(value="/up")
-	@ResponseBody
-	public void up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+	public String up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
 		logger.info("====================调用ArticleController-->接口：/up====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
@@ -301,7 +323,7 @@ public class ArticleController {
 				}
 			}
 		}
-		response.sendRedirect("../crud/article/articleList.jsp");
+		return "crud/article/articleList";
 	}
 	
 	private void updateMap(Map<String, String> map){

@@ -9,7 +9,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>新增标题</title>
+<title>update</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0 user-scalable=no">
 <link href="${pageContext.request.contextPath}/static/bootstrap-3.3.5-dist/css/bootstrap.min.css"
@@ -19,45 +19,57 @@
 </head>
 
 <body>
-	<jsp:include page="/crud/navi.jsp" flush="true" />
-	<form class="form-horizontal" action="article/add" method="post">
+	<jsp:include page="../../crud/navi.jsp" flush="true" />
+	<form class="form-horizontal" action="link/update" method="post">
 		<div class="form-group" style="margin:4px;width:100%;">
-			<label style="width: 100px;text-align: right;">栏目：</label>
+			<label style="width: 100px;text-align: right;display: inline-block;">ID：</label>
+			<div style="display: inline-block;">
+				<input type="text" class="form-control"
+					name="id" value="${param.id}" readonly="readonly">
+			</div>
+		</div>
+		<div class="form-group" style="margin:4px;width:100%;">
+			<label style="width: 100px;text-align: right;display: inline-block;">栏目：</label>
 			<label style="width: 196px;">
-				<select id="select" class="form-control" name="categoryId">
-      			</select>
+      			<select id="select" class="form-control" name="categoryId">
+					<option value="${param.categoryId}">${param.categoryName}</option>
+	      		</select>
 			</label>
 		</div>
 		<div class="form-group" style="margin:4px;width:100%;">
-			<label style="width: 100px;text-align: right;display: inline-block;">标题：</label>
+			<label style="width: 100px;text-align: right;display: inline-block;">链接名称：</label>
 			<div style="display: inline-block;">
 				<input type="text" class="form-control" name="name" placeholder="标题" value="${param.name}">
 			</div>
 		</div>
 		<div class="form-group" style="margin:4px;width:100%;">
-			<label style="width: 100px;text-align: right;display: inline-block;">内容：</label>
+			<label style="width: 100px;text-align: right;display: inline-block;">URL地址：</label>
 			<div style="display: inline-block;">
-				<input type="text" class="form-control" name="data" placeholder="内容" value="${param.data}">
+				<input type="text" class="form-control" name="url" placeholder="URL地址" value="${param.url}">
 			</div>
 		</div>
-		
-		<%-- 
 		<div class="form-group" style="margin:4px;width:100%;">
-			<label style="width: 100px;text-align: right;display: inline-block;">内容2：</label>
-			<textarea rows="4" cols="30" name="data2" value="${param.data2}"></textarea>
-		</div>
-		 --%>
-		
-		
-		<div class="form-group" style="margin:4px;width:100%;">
-			<label style="width: 100px;text-align: right;display: inline-block;">链接地址：</label>
+			<label style="width: 100px;text-align: right;display: inline-block;">排序：</label>
 			<div style="display: inline-block;">
-				<input type="text" class="form-control" name="url" placeholder="链接地址" value="${param.url}">
+				<input type="number" class="form-control" name="sort" placeholder="排序" value="${param.sort}">
 			</div>
+		</div>
+		<div class="form-group" style="margin:4px;width:100%;">
+			<label style="width: 100px;text-align: right;display: inline-block;">状态：</label>
+			<div style="display: inline-block;">
+				<input type="text" class="form-control" name="status" placeholder="状态" value="${param.status}" readonly="readonly">
+			</div>
+		</div>
+		<div class="form-group" style="margin:4px;width:100%;">
+				<label style="width: 100px;text-align: right;display: inline-block;">创建时间：</label>
+				<div style="display: inline-block;">
+					<input type="text" class="form-control" name="createTime"
+						placeholder="创建时间" value="${param.createTime}" readonly="readonly">
+				</div>
 		</div>
 		<div class="form-group" style="margin:4px;margin-left:48px;width:100%;">
 			<div>
-				<button type="submit" class="btn btn-default">提交</button>
+				<button type="submit" class="btn btn-default">修改</button>
 				<button onclick="history.go(-1)" class="btn btn-default">取消</button>
 			</div>
 		</div>

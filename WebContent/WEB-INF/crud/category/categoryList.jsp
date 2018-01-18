@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="fnc" uri="/WEB-INF/tlds/fnc.tld"%>
+<%@ page isELIgnored="false" %>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -11,7 +13,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>标题列表</title>
+<title>栏目列表</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -28,7 +30,7 @@
 </head>
 
 <body>
-	<jsp:include page="/crud/navi.jsp" flush="true" />
+	<jsp:include page="../../crud/navi.jsp" flush="true" />
 	<div id="container" class="container">
 			<table class="table table-bordered table-striped table-hover table-responsive">
 				<caption >
@@ -37,7 +39,7 @@
 					      <div class="row" style="text-align: right;margin-left:20%;width: 80%;display: inline-block;">
 					         <div style="display: inline-block;">
 					            <div class="input-group">
-					               <input type="text" id="attribute"  placeholder="标题名称" class="form-control">
+					               <input type="text" id="attribute"  placeholder="栏目名称" class="form-control">
 					               <span class="input-group-btn">
 					                  <button class="btn btn-primary" type="button" onclick="find();">
 					                                                                 确定
@@ -45,7 +47,7 @@
 					                  <button class="btn btn-default" type="button" onclick="clean();">
 					                                                                 清除
 					                  </button>
-						  			  <button class="btn btn-primary" type="button" onclick="add();" style="display: inline-block;margin-left: 90px;">新增</button>
+					                  <button class="btn btn-primary" type="button" onclick="add();" style="display: inline-block;margin-left: 90px;">新增</button>
 					               </span>
 					            </div>
 					         </div>
@@ -56,8 +58,9 @@
 				<thead>
 					<tr>
 						<th width="3%">ID</th><!-- 不变 -->
-						<th width="22%">标题名称</th>
-						<th width="22%">栏目</th>
+						<th width="20%">栏目名称</th>
+						<th width="20%">站点</th>
+						<th width="5%">父ID</th>
 						<th width="5%">排序</th><!-- 不变 -->
 						<th width="8%">在线状态</th><!-- 不变 -->
 						<th width="15%">更新时间</th>
@@ -78,9 +81,9 @@
 <script type="text/javascript">
 	//全局变量
 	var numbers=7;//每页多少条数据
-	var pageNow=sessionStorage.getItem("articlePage");
+	var pageNow=sessionStorage.getItem("categoryPage");
 	
-	////////////////////////////////////////////////////////////article特有的-start////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////category特有的-start////////////////////////////////////////////////////////////
 	//初始化页面
 	$(function(){
 		if(pageNow==""||pageNow=="null"||pageNow==null){
@@ -95,21 +98,22 @@
 		$("#tbody").html("");//清除之前的数据
 		$("#pagination").html("");//清除之前的数据
 		$.ajax({
-			url : "${pageContext.request.contextPath}/article/listByPage?page="+page+"&rows="+rows,
+			url : "${pageContext.request.contextPath}/category/listByPage?page="+page+"&rows="+rows,
 			type : "GET",
 			data : {},
 			dataType: "json",	
 			success : function(result) {
 				for (var i=0;i<result.jsonArray.length;i++){
 					var id=result.jsonArray[i].id;
-					var articleName=result.jsonArray[i].name;
-					var categoryId=result.jsonArray[i].categoryId;
-					var categoryName=result.jsonArray[i].categoryName;
+					var categoryName=result.jsonArray[i].name;
+					var siteId=result.jsonArray[i].siteId;
+					var parentId=result.jsonArray[i].parentId;
+					var siteName=result.jsonArray[i].siteName;
 					var sort=result.jsonArray[i].sort;
 					var status=result.jsonArray[i].status;
 					var createTime=result.jsonArray[i].createTime;
 					var updateTime=result.jsonArray[i].updateTime;
-					show(id,articleName,categoryId,categoryName,sort,status,createTime,updateTime);
+					show(id,categoryName,siteId,parentId,siteName,sort,status,createTime,updateTime);
 				}
 				pagination(result.sum,numbers);
 			},
@@ -120,12 +124,14 @@
 	}
 	
 	//展示的格式
-	function show(id,articleName,categoryId,categoryName,sort,status,createTime,updateTime){
+	function show(id,categoryName,siteId,parentId,siteName,sort,status,createTime,updateTime){
 		var tbody = 
 					"<tr>"+
 						"<td>"+id+"</td>"+
-						"<td style='text-align: center;'><a href='javascript:;' onclick=detail("+id+","+categoryId+") >"+articleName+"</a></td>"+
-						"<td>"+categoryName+"</td>"+
+						"<td style='text-align: center;'><a href='category/update_jsp?id="+id+
+						"&name="+categoryName+"&siteId="+siteId+"&siteName="+siteName+"&parentId="+parentId+"&sort="+sort+"&status="+status+"&createTime="+createTime+"'>"+categoryName+"</a></td>"+
+						"<td>"+siteName+"</td>"+
+						"<td>"+parentId+"</td>"+
 						"<td>"+sort+"</td>"+
 						"<td>"+status+"</td>"+
 						"<td>"+updateTime+"</td>"+
@@ -141,7 +147,6 @@
 					
 		$("#tbody").append(tbody);
 	}
-	
 	
 	//分页-导航-跳转
 	function stepIn(){
@@ -162,7 +167,7 @@
 	               'primary': true,
 	               'callback': function() {
 	                  $.ajax({
-						url : "${pageContext.request.contextPath}/article/delete?id="+id,
+						url : "${pageContext.request.contextPath}/category/delete?id="+id,
 						type : "GET",
 						data : {},
 						dataType: "json",	
@@ -182,38 +187,6 @@
 	   });
 	}
 	
-	function detail(id,categoryId){
-		$.ajax({
-			url : "${pageContext.request.contextPath}/article/updatePre",
-			type: "POST",
-			data : {"id":id,"categoryId":categoryId},
-			dataType: "json",	
-			success : function(result) {
-				if(result.success){
-					var articleList=result.articleList;
-					var articleDatasList=result.articleDatasList;
-					var linkList=result.linkList;
-					
-					var articleId=articleList[0].id;
-					var articleName=articleList[0].name;
-					var categoryId=articleList[0].categoryId;
-					var categoryName=result.categoryName;
-					var articleData=articleDatasList[0].data;
-					var linkUrl=linkList[0].url;
-					var articleSort=articleList[0].sort;
-					var articleStatus=articleList[0].status;
-					var articleCreateTime=articleList[0].createTime;
-					
-					window.location.href = "${pageContext.request.contextPath}/crud/article/articleUpdate.jsp?articleId="+articleId+
-					"&articleName="+articleName+"&categoryId="+categoryId+"&categoryName="+categoryName+"&articleData="+articleData+
-					"&linkUrl="+linkUrl+"&articleSort="+articleSort+"&articleStatus="+articleStatus+"&articleCreateTime="+articleCreateTime;
-				}
-			},
-			error : function() {
-				Confirm.show('提示', '超时,请重试或刷新页面!');
-			}
-		});
-	}
 	
 	//清空搜索条件
 	function clean(){
@@ -222,29 +195,32 @@
 	
 	//新增
 	function add(){
-		window.location.href = "crud/article/articleAdd.jsp";
+		window.location.href = "category/add_jsp";
 	}
 	
 	//模糊查找
 	function find() {
 		  $("#tbody").html("");//清除之前的数据
           $.ajax({
-			url : "${pageContext.request.contextPath}/article/find?attribute="+$("#attribute")[0].value,
+			url : "${pageContext.request.contextPath}/category/find?attribute="+$("#attribute")[0].value,
 			type : "GET",
 			data : {},
 			dataType: "json",	
 			success : function(result) {
 				for (var i=0;i<result.length;i++){
 					var id=result[i].id;
-					var articleName=result[i].name;
-					var categoryId=result[i].categoryId;
-					var categoryName=result[i].categoryName;
+					var categoryName=result[i].name;
+					var siteId=result[i].siteId;
+					var parentId=result[i].parentId;
+					var siteName=result[i].siteName;
 					var sort=result[i].sort;
 					var status=result[i].status;
 					var createTime=result[i].createTime;
 					var updateTime=result[i].updateTime;
-					show(id,articleName,categoryId,categoryName,sort,status,createTime,updateTime);
+					show(id,categoryName,siteId,parentId,siteName,sort,status,createTime,updateTime);
 				}
+				
+				
 			},
 			error : function() {
 				Confirm.show('提示', '超时,请重试或刷新页面!');
@@ -254,20 +230,21 @@
 	
 	//上移
 	function up(id){
-		window.location.href = "${pageContext.request.contextPath}/article/up?id="+id+"";
+		window.location.href = "${pageContext.request.contextPath}/category/up?id="+id+"";
 	}
 	
 	//下移
 	function down(id){
-		window.location.href = "${pageContext.request.contextPath}/article/down?id="+id+"";
+		window.location.href = "${pageContext.request.contextPath}/category/down?id="+id+"";
 	}
 	
 	//上线下线
 	function statusChange(id){
-		window.location.href = "${pageContext.request.contextPath}/article/changeStatus?id="+id+"";
+		window.location.href = "${pageContext.request.contextPath}/category/changeStatus?id="+id+"";
 	}
-
-////////////////////////////////////////////////////////////article特有的-end////////////////////////////////////////////////////////////
+	
+	
+////////////////////////////////////////////////////////////category特有的-end////////////////////////////////////////////////////////////
 	
 	//分页导航
 	function pagination(sum,num){
@@ -275,7 +252,7 @@
 		"<nav>"+
 		  "<ul class='pagination'>"+
 		    "<li>"+
-		      "<a id='XXX' href='javascript:whichPage("+((sessionStorage.getItem("articlePage")-1)>0?(sessionStorage.getItem("articlePage")-1):1)+");' aria-label='Previous'>"+
+		      "<a id='XXX' href='javascript:whichPage("+((sessionStorage.getItem("categoryPage")-1)>0?(sessionStorage.getItem("categoryPage")-1):1)+");' aria-label='Previous'>"+
 		        "<span aria-hidden='true'>&laquo;上一页</span>"+
 		      "</a>"+
 		    "</li>";
@@ -290,7 +267,7 @@
 			
 		var paginationLast=
 			"<li>"+
-		      "<a href='javascript:whichPage("+((sessionStorage.getItem("articlePage")-(-1))<(Math.ceil(sum/num))?(sessionStorage.getItem("articlePage")-(-1)):(Math.ceil(sum/num)))+");' aria-label='Next'>"+
+		      "<a href='javascript:whichPage("+((sessionStorage.getItem("categoryPage")-(-1))<(Math.ceil(sum/num))?(sessionStorage.getItem("categoryPage")-(-1)):(Math.ceil(sum/num)))+");' aria-label='Next'>"+
 		        "<span aria-hidden='true'>下一页&raquo;</span>"+
 		      "</a>"+
 		    "</li>"+
@@ -306,7 +283,7 @@
 	    	lister=min;
 	    }else if(sum/num<=8){
 	    	for(var i=1;i<=sum/num;i++){
-	    		if(i==sessionStorage.getItem("articlePage")){
+	    		if(i==sessionStorage.getItem("categoryPage")){
 	    			lister+="<li><a style='background-color: #DFF4FA' href='javascript:whichPage("+i+");'>"+i+"</a></li>";
 	    		}else{
 	    			lister+="<li><a href='javascript:whichPage("+i+");'>"+i+"</a></li>";
@@ -314,7 +291,7 @@
 	    	}
 	    }else{
 	    	for(var i=1;i<=8;i++){
-	    		if(i==sessionStorage.getItem("articlePage")){
+	    		if(i==sessionStorage.getItem("categoryPage")){
 	    			lister+="<li><a style='background-color: #DFF4FA' href='javascript:whichPage("+i+");'>"+i+"</a></li>";
 	    		}else{
 	    			lister+="<li><a href='javascript:whichPage("+i+");'>"+i+"</a></li>";
@@ -330,11 +307,12 @@
 	
 	//分页导航
 	function whichPage(i){
-		sessionStorage.removeItem("articlePage");
+		sessionStorage.removeItem("categoryPage");
 		loadData(i,numbers);
-		sessionStorage.setItem("articlePage", i);
+		sessionStorage.setItem("categoryPage", i);
 		
 	}
+
 	
 </script>
 

@@ -19,8 +19,8 @@
 </head>
 
 <body>
-		<jsp:include page="/crud/navi.jsp" flush="true" />
-		<form class="form-horizontal" action="category/update" method="post">
+		<jsp:include page="../../crud/navi.jsp" flush="true" />
+		<form class="form-horizontal" action="site/update" method="post">
 			<div class="form-group" style="margin:4px;width:100%;">
 				<label style="width: 100px;text-align: right;display: inline-block;">ID：</label>
 				<div style="display: inline-block;">
@@ -29,32 +29,17 @@
 				</div>
 			</div>
 			<div class="form-group" style="margin:4px;width:100%;">
-				<label style="width: 100px;text-align: right;display: inline-block;">栏目名称：</label>
+				<label style="width: 100px;text-align: right;display: inline-block;">站点名称：</label>
 				<div style="display: inline-block;">
 					<input type="text" class="form-control" name="name"
-						placeholder="栏目名称" value="${param.name}">
-				</div>
-			</div>
-			<div class="form-group" style="margin:4px;width:100%;">
-				<label style="width: 100px;text-align: right;display: inline-block;">站点：</label>
-				<label style="width: 196px;">
-					<select id="select" class="form-control" name="siteId">
-						<option value="${param.siteId}">${param.siteName}</option>
-	      			</select>
-				</label>
-			</div>
-			<div class="form-group" style="margin:4px;width:100%;">
-				<label style="width: 100px;text-align: right;display: inline-block;">parentId：</label>
-				<div style="display: inline-block;">
-					<input type="text" class="form-control" name="parentId"
-						placeholder="parentId" value="${param.parentId}" readonly="readonly">
+						placeholder="站点名称" value="${param.name}">
 				</div>
 			</div>
 			<div class="form-group" style="margin:4px;width:100%;">
 				<label style="width: 100px;text-align: right;display: inline-block;">排序：</label>
 				<div style="display: inline-block;">
 					<input type="number" class="form-control" name="sort"
-						placeholder="排序" value="${param.sort}" >
+						placeholder="排序" value="${param.sort}">
 				</div>
 			</div>
 			<div class="form-group" style="margin:4px;width:100%;">
@@ -82,25 +67,5 @@
 
 </body>
 </html>
-<script type="text/javascript">
-	
-	$("#select").one('click',function() {
-		$.ajax({
-			type:"get",
-			url:"site/list",
-			success: function(data){
-				for(var i=0;i<data.length;i++){
-					$("#select").append(new Option(data[i].name,data[i].id));
-				}
-			},
-			fail:function(data){
-				alert("fail");
-			} 
-		})
-	})
-	
-	
-</script>
-
 
 

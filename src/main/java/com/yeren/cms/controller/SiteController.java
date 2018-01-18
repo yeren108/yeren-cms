@@ -16,8 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sun.print.resources.serviceui;
@@ -83,7 +85,10 @@ public class SiteController {
 		return jsonObject;
 	}
 	
-	
+	@RequestMapping(value = "/list_jsp", method = RequestMethod.GET)
+	public String listByPage() {
+		return "crud/site/siteList";
+	}
 	
 	@RequestMapping(value="/find", method = RequestMethod.GET)
 	@ResponseBody
@@ -106,9 +111,13 @@ public class SiteController {
 		return jsonArray;
 	}
 	
-	@RequestMapping(value="/add",method=RequestMethod.POST)
-	@ResponseBody
-	public void add(HttpServletRequest request, HttpServletResponse response,Site site) throws ServletException, IOException{
+	@RequestMapping(value = "/add_jsp", method = RequestMethod.GET)
+	public String add() {
+		return "crud/site/siteAdd";
+	}
+	
+	@RequestMapping(value="/add",method = RequestMethod.POST)
+	public String add(HttpServletRequest request, HttpServletResponse response,Site site) throws ServletException, IOException{
 		logger.info("====================调用SiteController-->接口：/add====================");
 		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
 		site.setCreateTime(dateStr);//创建时间
@@ -116,19 +125,28 @@ public class SiteController {
 		site.setStatus("1");//默认上线
 		site.setSort(1);//默认排序
 		siteService.save(site);
-		response.sendRedirect("../crud/site/siteList.jsp");
+		
+		return "crud/site/siteList";
+	}
+	
+	@RequestMapping(value = "/update_jsp", method = RequestMethod.GET)
+	public String update(String id,String name,String sort,String status,String createTime,ModelMap model) {
+		model.addAttribute("id", id);
+		model.addAttribute("name", name);
+		model.addAttribute("sort", sort);
+		model.addAttribute("status", status);
+		model.addAttribute("createTime", createTime);
+		return "crud/site/siteUpdate";
 	}
 	
 	
-	
 	@RequestMapping(value="/update",method=RequestMethod.POST)
-	@ResponseBody
-	public void update(HttpServletRequest request, HttpServletResponse response,Site site) throws ServletException, IOException{
+	public String update(HttpServletRequest request, HttpServletResponse response,Site site) throws ServletException, IOException{
 		logger.info("====================调用SiteController-->接口：/update====================");
 		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
 		site.setUpdateTime(dateStr);//更新时间
 		siteService.update(site);
-		response.sendRedirect("../crud/site/siteList.jsp");
+		return "crud/site/siteList";
 	}
 	
 	@RequestMapping(value="/delete")
@@ -148,16 +166,14 @@ public class SiteController {
 	}
 	
 	@RequestMapping(value="/changeStatus")
-	@ResponseBody
-	public void changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+	public String changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
 		logger.info("====================调用SiteController-->接口：/changeStatus====================");
 		siteService.changeStatus(id);
-		response.sendRedirect("../crud/site/siteList.jsp");
+		return "crud/site/siteList";
 	}
 	
 	@RequestMapping(value="/down")
-	@ResponseBody
-	public void down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+	public String down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
 		logger.info("====================调用SiteController-->接口：/down====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
@@ -184,13 +200,12 @@ public class SiteController {
 				}
 			}
 		}
-		response.sendRedirect("../crud/site/siteList.jsp");
+		return "crud/site/siteList";
 	}
 	
 	
 	@RequestMapping(value="/up")
-	@ResponseBody
-	public void up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
+	public String up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
 		logger.info("====================调用SiteController-->接口：/up====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
@@ -217,7 +232,7 @@ public class SiteController {
 				}
 			}
 		}
-		response.sendRedirect("../crud/site/siteList.jsp");
+		return "crud/site/siteList";
 	}
 	
 	

@@ -19,7 +19,7 @@
 </head>
 
 <body>
-	<jsp:include page="/crud/navi.jsp" flush="true" />
+	<jsp:include page="../../crud/navi.jsp" flush="true" />
 	<form class="form-horizontal" action="article/update" method="post">
 		<div class="form-group" style="margin:4px;width:100%;">
 			<label style="width: 100px;text-align: right;display: inline-block;">ID：</label>

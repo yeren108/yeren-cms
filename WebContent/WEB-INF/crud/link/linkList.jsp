@@ -30,7 +30,7 @@
 </head>
 
 <body>
-	<jsp:include page="/crud/navi.jsp" flush="true" />
+	<jsp:include page="../../crud/navi.jsp" flush="true" />
 	<div id="container" class="container">
 			
 			<table class="table table-bordered table-striped table-hover table-responsive">
@@ -130,7 +130,7 @@
 		var tbody = 
 					"<tr>"+
 						"<td>"+id+"</td>"+
-						"<td style='text-align: center;'><a href='crud/link/linkUpdate.jsp?id="+id+
+						"<td style='text-align: center;'><a href='link/update_jsp?id="+id+
 						"&name="+linkName+"&url="+url+"&categoryId="+categoryId+"&categoryName="+categoryName+"&categoryName="+
 						"&sort="+sort+"&status="+status+"&createTime="+createTime+
 						"'>"+linkName+"</a></td>"+
@@ -198,7 +198,7 @@
 	
 	//新增
 	function add(){
-		window.location.href = "crud/link/linkAdd.jsp";
+		window.location.href = "link/add_jsp";
 	}
 	
 	//模糊查找

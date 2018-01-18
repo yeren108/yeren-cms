@@ -7,7 +7,7 @@
 
 	<display-name>content manager system</display-name>
 	<welcome-file-list>
-		<welcome-file>/crud/site/siteList.jsp</welcome-file>
+		<welcome-file>site/list_jsp</welcome-file>
 	</welcome-file-list>
 
 	<!-- 解决乱码 -->
