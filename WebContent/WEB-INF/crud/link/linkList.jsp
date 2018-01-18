@@ -58,13 +58,13 @@
 				</caption>
 				<thead>
 					<tr>
-						<th width="3%">ID</th><!-- 不变 -->
-						<th width="14%">链接名称</th>
-						<th width="8%">URL地址</th>
-						<th width="14%">栏目</th>
-						<th width="5%">排序</th><!-- 不变 -->
-						<th width="5%">line</th><!-- 不变 -->
-						<th width="13%">更新时间</th>
+						<th width="3%" style="text-align: center;">ID</th><!-- 不变 -->
+						<th width="14%" style="text-align: center;">链接名称</th>
+						<th width="8%" style="text-align: center;">URL地址</th>
+						<th width="14%" style="text-align: center;">栏目</th>
+						<th width="5%" style="text-align: center;">排序</th><!-- 不变 -->
+						<th width="5%" style="text-align: center;">line</th><!-- 不变 -->
+						<th width="13%" style="text-align: center;">更新时间</th>
 						<th width="39%" style="text-align: center;">操作</th>
 					</tr>
 				</thead>
@@ -128,9 +128,9 @@
 	//展示的格式
 	function show(id,linkName,url,categoryId,categoryName,sort,status,createTime,updateTime){
 		var tbody = 
-					"<tr>"+
+					"<tr  style='text-align: center;'>"+
 						"<td>"+id+"</td>"+
-						"<td style='text-align: center;'><a href='link/update_jsp?id="+id+
+						"<td><a href='link/update_jsp?id="+id+
 						"&name="+linkName+"&url="+url+"&categoryId="+categoryId+"&categoryName="+categoryName+"&categoryName="+
 						"&sort="+sort+"&status="+status+"&createTime="+createTime+
 						"'>"+linkName+"</a></td>"+

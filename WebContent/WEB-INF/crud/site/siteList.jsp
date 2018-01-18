@@ -63,15 +63,15 @@
 				</caption>
 				<thead>
 					<tr>
-						<th width="3%">ID</th><!-- 不变 -->
-						<th width="24%">站点名称</th>
-						<th width="5%">排序</th><!-- 不变 -->
-						<th width="5%">line</th><!-- 不变 -->
-						<th width="25%">更新时间</th>
+						<th width="3%" style="text-align: center;">ID</th><!-- 不变 -->
+						<th width="24%" style="text-align: center;">站点名称</th>
+						<th width="5%" style="text-align: center;">排序</th><!-- 不变 -->
+						<th width="5%" style="text-align: center;">line</th><!-- 不变 -->
+						<th width="25%" style="text-align: center;">更新时间</th>
 						<th width="38%" style="text-align: center;">操作</th>
 					</tr>
 				</thead>
-				<tbody id="tbody">
+				<tbody id="tbody"  style="font-size: xx-small;">
 					
 				</tbody>
 			</table>
@@ -122,9 +122,9 @@
 	//展示的格式
 	function show(id,name,sort,status,createTime,updateTime){
 		var tbody = 
-					"<tr>"+
+					"<tr  style='text-align: center;'>"+
 						"<td>"+id+"</td>"+
-						"<td style='text-align: center;'><a href='site/update_jsp?id="+id+"&name="+name+"&sort="+sort+"&status="+status+"&createTime="+createTime+"'>"+name+"</a></td>"+
+						"<td><a href='site/update_jsp?id="+id+"&name="+name+"&sort="+sort+"&status="+status+"&createTime="+createTime+"'>"+name+"</a></td>"+
 						"<td>"+sort+"</td>"+
 						"<td>"+status+"</td>"+
 						"<td>"+updateTime+"</td>"+
