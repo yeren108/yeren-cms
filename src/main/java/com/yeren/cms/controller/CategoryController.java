@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -105,10 +106,10 @@ public class CategoryController {
 		return "crud/category/categoryList";
 	}
 	
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	@RequestMapping(value = "/find/{attribute}", method = RequestMethod.GET)
 	@ResponseBody
-	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response, String attribute) {
-		logger.info("====================调用CategoryController-->接口：/find====================");
+	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response,@PathVariable String attribute) {
+		logger.info("====================调用CategoryController-->接口：/find/{attribute}====================");
 		List<Category> list = categoryService.findByAttribute(attribute);
 		List<CategoryVo> categoryVoList = CategoryConverter.convert2Vo(list);
 		Map<String, String> map = new HashMap<String, String>();
@@ -166,10 +167,10 @@ public class CategoryController {
 	}
 	
 
-	@RequestMapping(value = "/delete")
+	@RequestMapping(value = "/delete/{id}")
 	@ResponseBody
-	public JSONObject delete(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
-		logger.info("====================调用CategoryController-->接口：/delete====================");
+	public JSONObject delete(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException {
+		logger.info("====================调用CategoryController-->接口：/delete/{id}====================");
 		int softDelete = categoryService.softDelete(id);
 		JSONObject json = new JSONObject();
 		json.put("success", true);
@@ -177,16 +178,25 @@ public class CategoryController {
 		return json;
 	}
 	
-	@RequestMapping(value="/changeStatus")
-	public String changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用CategoryController-->接口：/changeStatus====================");
+	@RequestMapping(value="/changeStatus/{id}")
+	public String changeStatus(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用CategoryController-->接口：/changeStatus/{id}====================");
 		categoryService.changeStatus(id);
 		return "crud/category/categoryList";
 	}
 	
-	@RequestMapping(value="/down")
-	public String down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用CategoryController-->接口：/down====================");
+	/**
+	 * 同一个站点才可以上移下移
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value="/down/{id}")
+	public String down(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用CategoryController-->接口：/down/{id}====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
 		java.sql.Date sDate=new java.sql.Date(uDate.getTime());
@@ -216,9 +226,18 @@ public class CategoryController {
 	}
 	
 	
-	@RequestMapping(value="/up")
-	public String up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用CategoryController-->接口：/up====================");
+	/**
+	 * 同一个站点才可以上移下移
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value="/up/{id}")
+	public String up(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用CategoryController-->接口：/up/{id}====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
 		java.sql.Date sDate=new java.sql.Date(uDate.getTime());

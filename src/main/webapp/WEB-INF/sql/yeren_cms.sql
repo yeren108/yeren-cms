@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `cms_article`;
 CREATE TABLE `cms_article` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(255) DEFAULT NULL COMMENT '标题名称',
+  `name` varchar(255) DEFAULT NULL COMMENT '文章名称',
   `sort` varchar(11) DEFAULT NULL COMMENT '排序',
   `status` varchar(11) DEFAULT NULL COMMENT '上线状态，0为下线，1为上线',
   `category_id` int(11) NOT NULL COMMENT '所属栏目ID',
@@ -67,7 +67,7 @@ CREATE TABLE `cms_link` (
   `name` varchar(255) DEFAULT NULL COMMENT '链接名称',
   `url` varchar(255) DEFAULT NULL COMMENT '链接地址',
   `category_id` int(11) NOT NULL COMMENT '所属栏目ID',
-  `article_id` int(11) DEFAULT NULL COMMENT '标题ID',
+  `article_id` int(11) DEFAULT NULL COMMENT '文章ID',
   `sort` varchar(11) DEFAULT NULL COMMENT '排序',
   `status` varchar(11) DEFAULT NULL COMMENT '上线状态',
   `create_time` varchar(50) DEFAULT NULL COMMENT '创建时间',

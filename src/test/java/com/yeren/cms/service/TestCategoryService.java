@@ -90,7 +90,7 @@ public class TestCategoryService {
 	public void testFindArticleByCategory(){
 		List<Article> list = categoryService.findArticleByCategory(4);
 		if (list.size() != 0) {
-			System.out.println("标题个数有:"+list.size());
+			System.out.println("文章个数有:"+list.size());
 		}
 	}
 	

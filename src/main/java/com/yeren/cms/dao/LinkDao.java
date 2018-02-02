@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import com.yeren.cms.modle.Category;
 import com.yeren.cms.modle.Link;
-import com.yeren.cms.modle.Site;
 import com.yeren.cms.util.PageBean;
 
 @Repository
@@ -76,9 +74,9 @@ public class LinkDao {
 			query.setInteger("articleId", articleId);
 			executeUpdate = query.executeUpdate();
 			tx.commit();
-			logger.info("通过标题删除链接<ID="+articleId+">"+executeUpdate+"条");
+			logger.info("通过文章删除链接<ID="+articleId+">"+executeUpdate+"条");
 		} catch (RuntimeException e) {
-			logger.info("通过标题删除链接<ID="+articleId+">失败");
+			logger.info("通过文章删除链接<ID="+articleId+">失败");
 			tx.rollback();
 			e.printStackTrace();
 		} finally {
@@ -226,9 +224,9 @@ public class LinkDao {
 			org.hibernate.Query query = session.createQuery(hql);
 			query.setInteger("articleId", articleId);
 			list = query.list();
-			logger.info("通过标题<ID="+articleId+">查询链接成功");
+			logger.info("通过文章<ID="+articleId+">查询链接成功");
 		} catch (RuntimeException e) {
-			logger.info("通过标题<ID="+articleId+">查询链接失败");
+			logger.info("通过文章<ID="+articleId+">查询链接失败");
 			e.printStackTrace();
 		} finally {
 			session.close();

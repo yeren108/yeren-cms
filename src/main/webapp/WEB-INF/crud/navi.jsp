@@ -13,7 +13,7 @@
       <ul id="WWW" class="nav navbar-nav">
          <li id="btn1" ><a href="${pageContext.request.contextPath}/site/list_jsp">站点</a></li>
          <li id="btn2"><a href="${pageContext.request.contextPath}/category/list_jsp">栏目</a></li>
-         <li id="btn3"><a href="${pageContext.request.contextPath}/article/list_jsp">标题</a></li>
+         <li id="btn3"><a href="${pageContext.request.contextPath}/article/list_jsp">文章</a></li>
          <li id="btn4"><a href="${pageContext.request.contextPath}/link/list_jsp">链接</a></li>
          <li id="btn5" class="dropdown">
             <a href="${pageContext.request.contextPath}/common/404" class="dropdown-toggle" data-toggle="dropdown">

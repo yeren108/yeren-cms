@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.yeren.cms.modle.Article;
-import com.yeren.cms.modle.Link;
-import com.yeren.cms.modle.Site;
 import com.yeren.cms.util.PageBean;
 
 @Repository
@@ -33,9 +31,9 @@ public class ArticleDao {
 			tx = session.beginTransaction();
 			session.save(article);
 			tx.commit();
-			logger.info("新增标题<ID="+article.getId()+":"+article.getName()+">成功");
+			logger.info("新增文章<ID="+article.getId()+":"+article.getName()+">成功");
 		} catch (RuntimeException e) {
-			logger.info("新增标题<ID="+article.getId()+":"+article.getName()+">失败");
+			logger.info("新增文章<ID="+article.getId()+":"+article.getName()+">失败");
 			tx.rollback();
 			e.printStackTrace();
 		} finally {
@@ -55,9 +53,9 @@ public class ArticleDao {
 			query.setInteger("id", id);
 			executeUpdate = query.executeUpdate();
 			tx.commit();
-			logger.info("删除标题<ID="+id+">"+executeUpdate+"条");
+			logger.info("删除文章<ID="+id+">"+executeUpdate+"条");
 		} catch (RuntimeException e) {
-			logger.info("删除标题<ID="+id+">失败");
+			logger.info("删除文章<ID="+id+">失败");
 			tx.rollback();
 			e.printStackTrace();
 		} finally {
@@ -73,9 +71,9 @@ public class ArticleDao {
 			tx = session.beginTransaction();
 			session.update(article);
 			tx.commit();
-			logger.info("修改标题<ID="+article.getId()+":"+article.getName()+">成功");
+			logger.info("修改文章<ID="+article.getId()+":"+article.getName()+">成功");
 		} catch (RuntimeException e) {
-			logger.info("修改标题<ID="+article.getId()+":"+article.getName()+">失败");
+			logger.info("修改文章<ID="+article.getId()+":"+article.getName()+">失败");
 			tx.rollback();
 			e.printStackTrace();
 		} finally {
@@ -92,9 +90,9 @@ public class ArticleDao {
 			org.hibernate.Query query = session.createQuery(hql);
 			query.setInteger("id", id);
 			list = query.list();
-			logger.info("查找标题<ID="+id+">成功");
+			logger.info("查找文章<ID="+id+">成功");
 		} catch (RuntimeException e) {
-			logger.info("查找标题<ID="+id+">失败");
+			logger.info("查找文章<ID="+id+">失败");
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -118,9 +116,9 @@ public class ArticleDao {
 			org.hibernate.Query query = session.createSQLQuery(sql);
 			executeUpdate = query.executeUpdate();
 			tx.commit();
-			logger.info("硬删除标题和文章内容<ID="+id+">"+executeUpdate+"条");
+			logger.info("硬删除文章和文章内容<ID="+id+">"+executeUpdate+"条");
 		} catch (RuntimeException e) {
-			logger.info("硬删除标题和文章内容<ID="+id+">失败");
+			logger.info("硬删除文章和文章内容<ID="+id+">失败");
 			tx.rollback();
 			e.printStackTrace();
 		} finally {
@@ -136,9 +134,9 @@ public class ArticleDao {
 			String hql = "from Article order by categoryId,sort";
 			org.hibernate.Query query = session.createQuery(hql);
 			list = query.list();
-			logger.info("查找标题一共<"+list.size()+">个");
+			logger.info("查找文章一共<"+list.size()+">个");
 		} catch (RuntimeException e) {
-			logger.info("查询标题<所有>失败");
+			logger.info("查询文章<所有>失败");
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -154,9 +152,9 @@ public class ArticleDao {
 			org.hibernate.Query query = session.createQuery(hql);
 			query.setInteger("categoryId", categoryId);
 			list = query.list();
-			logger.info("排序用-查找标题一共<"+list.size()+">个");
+			logger.info("排序用-查找文章一共<"+list.size()+">个");
 		} catch (RuntimeException e) {
-			logger.info("排序用-查询标题<部分>失败");
+			logger.info("排序用-查询文章<部分>失败");
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -173,9 +171,9 @@ public class ArticleDao {
 			query.setFirstResult(pb.getStart());
 			query.setMaxResults(pb.getRows());
 			list = query.list();
-			logger.info("分页查找标题一共<"+list.size()+">个");
+			logger.info("分页查找文章一共<"+list.size()+">个");
 		} catch (RuntimeException e) {
-			logger.info("分页查询标题<所有>失败");
+			logger.info("分页查询文章<所有>失败");
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -190,9 +188,9 @@ public class ArticleDao {
 			String sql = "select * from cms_article";
 			org.hibernate.Query query = session.createSQLQuery(sql);
 			list = query.list();
-			logger.info("查找标题一共<"+list.size()+">个");
+			logger.info("查找文章一共<"+list.size()+">个");
 		} catch (RuntimeException e) {
-			logger.info("查询标题<所有>失败");
+			logger.info("查询文章<所有>失败");
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -207,9 +205,9 @@ public class ArticleDao {
 			String sql = "SELECT ad.* FROM cms_article a,cms_article_data ad WHERE a.id=ad.id AND a.id="+id;
 			org.hibernate.Query query = session.createSQLQuery(sql);
 			list = query.list();
-			logger.info("通过标题<ID="+id+">查询文章内容成功");
+			logger.info("通过文章<ID="+id+">查询文章内容成功");
 		} catch (RuntimeException e) {
-			logger.info("通过标题<ID="+id+">查询文章内容失败");
+			logger.info("通过文章<ID="+id+">查询文章内容失败");
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -224,9 +222,9 @@ public class ArticleDao {
 			String sql = "SELECT l.* FROM cms_article a,cms_link l WHERE a.id=l.article_id AND a.id="+id;
 			org.hibernate.Query query = session.createSQLQuery(sql);
 			list = query.list();
-			logger.info("通过标题<ID="+id+">查询链接成功");
+			logger.info("通过文章<ID="+id+">查询链接成功");
 		} catch (RuntimeException e) {
-			logger.info("通过标题<ID="+id+">查询链接失败");
+			logger.info("通过文章<ID="+id+">查询链接失败");
 			e.printStackTrace();
 		} finally {
 			session.close();
@@ -260,9 +258,9 @@ public class ArticleDao {
 			article.setStatus(status/1==0?"1":"0");
 			session.update(article);
 			tx.commit();
-			logger.info("修改标题上下线状态<ID="+article.getId()+":"+article.getName()+">成功");
+			logger.info("修改文章上下线状态<ID="+article.getId()+":"+article.getName()+">成功");
 		} catch (RuntimeException e) {
-			logger.info("修改标题上下线状态<ID="+article.getId()+":"+article.getName()+">失败");
+			logger.info("修改文章上下线状态<ID="+article.getId()+":"+article.getName()+">失败");
 			tx.rollback();
 			e.printStackTrace();
 		} finally {

@@ -11,12 +11,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,7 +26,6 @@ import com.yeren.cms.modle.Article;
 import com.yeren.cms.modle.ArticleData;
 import com.yeren.cms.modle.Category;
 import com.yeren.cms.modle.Link;
-import com.yeren.cms.modle.Site;
 import com.yeren.cms.service.ArticleDataService;
 import com.yeren.cms.service.ArticleService;
 import com.yeren.cms.service.CategoryService;
@@ -122,10 +121,10 @@ public class ArticleController {
 		return "crud/article/articleList";
 	}
 	
-	@RequestMapping(value="/find", method = RequestMethod.GET)
+	@RequestMapping(value="/find/{attribute}", method = RequestMethod.GET)
 	@ResponseBody
-	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response,String attribute){
-		logger.info("====================调用ArticleController-->接口：/find====================");
+	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response,@PathVariable String attribute){
+		logger.info("====================调用ArticleController-->接口：/find/{attribute}====================");
 		List<Article> list = articleService.findByAttribute(attribute);
 		List<ArticleVo> ArticleVoList = ArticleConverter.convert2Vo(list);
 		Map<String, String> map = new HashMap<String, String>();
@@ -148,7 +147,7 @@ public class ArticleController {
 	public String add(HttpServletRequest request, HttpServletResponse response,Article article) throws ServletException, IOException{
 		logger.info("====================调用ArticleController-->接口：/add====================");
 		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(System.currentTimeMillis())));
-		//保存标题
+		//保存文章
 		article.setCreateTime(dateStr);//创建时间
 		article.setUpdateTime(dateStr);//更新时间
 		article.setStatus("1");//默认上线
@@ -242,10 +241,10 @@ public class ArticleController {
 		return "crud/article/articleList";
 	}
 	
-	@RequestMapping(value="/delete")
+	@RequestMapping(value="/delete/{id}")
 	@ResponseBody
-	public synchronized JSONObject  delete(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用ArticleController-->接口：/delete====================");
+	public synchronized JSONObject  delete(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用ArticleController-->接口：/delete/{id}====================");
 		linkService.deleteByArticleId(id);
 		int hardDelete = articleService.hardDelete(id);
 		
@@ -256,16 +255,25 @@ public class ArticleController {
 		return json;
 	}
 	
-	@RequestMapping(value="/changeStatus")
-	public String changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用ArticleController-->接口：/changeStatus====================");
+	@RequestMapping(value="/changeStatus/{id}")
+	public String changeStatus(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用ArticleController-->接口：/changeStatus/{id}====================");
 		articleService.changeStatus(id);
 		return "crud/article/articleList";
 	}
 	
-	@RequestMapping(value="/down")
-	public String down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用ArticleController-->接口：/down====================");
+	/**
+	 * 只有在同一个栏目才能上移下移
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value="/down/{id}")
+	public String down(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用ArticleController-->接口：/down/{id}====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
 		java.sql.Date sDate=new java.sql.Date(uDate.getTime());
@@ -294,10 +302,18 @@ public class ArticleController {
 		return "crud/article/articleList";
 	}
 	
-	
-	@RequestMapping(value="/up")
-	public String up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用ArticleController-->接口：/up====================");
+	/**
+	 * 只有在同一个栏目才能上移下移
+	 * @param request
+	 * @param response
+	 * @param id
+	 * @return
+	 * @throws ServletException
+	 * @throws IOException
+	 */
+	@RequestMapping(value="/up/{id}")
+	public String up(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用ArticleController-->接口：/up/{id}====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
 		java.sql.Date sDate=new java.sql.Date(uDate.getTime());

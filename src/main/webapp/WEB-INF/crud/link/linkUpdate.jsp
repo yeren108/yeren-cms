@@ -39,7 +39,7 @@
 		<div class="form-group" style="margin:4px;width:100%;">
 			<label style="width: 100px;text-align: right;display: inline-block;">链接名称：</label>
 			<div style="display: inline-block;">
-				<input type="text" class="form-control" name="name" placeholder="标题" value="${param.name}">
+				<input type="text" class="form-control" name="name" placeholder="文章" value="${param.name}">
 			</div>
 		</div>
 		<div class="form-group" style="margin:4px;width:100%;">

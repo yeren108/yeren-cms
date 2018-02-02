@@ -3,6 +3,7 @@ package com.yeren.cms.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,14 +12,12 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,11 +25,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.yeren.cms.converter.LinkConverter;
 import com.yeren.cms.modle.Category;
 import com.yeren.cms.modle.Link;
-import com.yeren.cms.modle.Site;
 import com.yeren.cms.service.CategoryService;
 import com.yeren.cms.service.LinkService;
 import com.yeren.cms.util.PageBean;
 import com.yeren.cms.vo.LinkVO;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/link")
@@ -105,10 +106,10 @@ public class LinkController {
 		return "crud/link/linkList";
 	}
 	
-	@RequestMapping(value = "/find", method = RequestMethod.GET)
+	@RequestMapping(value = "/find/{attribute}", method = RequestMethod.GET)
 	@ResponseBody
-	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response, String attribute) {
-		logger.info("====================调用LinkController-->接口：/find====================");
+	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response,@PathVariable String attribute) {
+		logger.info("====================调用LinkController-->接口：/find/{attribute}====================");
 		List<Link> list = linkService.findByAttribute(attribute);
 		List<LinkVO> linkVoList = LinkConverter.convert2Vo(list);
 		Map<String, String> map = new HashMap<String, String>();
@@ -122,10 +123,10 @@ public class LinkController {
 		return jsonArray;
 	}
 	
-	@RequestMapping(value = "/find2", method = RequestMethod.GET)
+	@RequestMapping(value = "/find2/{attribute}", method = RequestMethod.GET)
 	@ResponseBody
 	public JSONArray findByAttribute2(HttpServletRequest request, HttpServletResponse response, String attribute) {
-		logger.info("====================调用LinkController-->接口：/find2====================");
+		logger.info("====================调用LinkController-->接口：/find2/{attribute}====================");
 		List<Link> list = linkService.findByAttribute2(attribute);
 		List<LinkVO> linkVoList = LinkConverter.convert2Vo(list);
 		Map<String, String> map = new HashMap<String, String>();
@@ -181,10 +182,10 @@ public class LinkController {
 		return "crud/link/linkList";
 	}
 
-	@RequestMapping(value = "/delete")
+	@RequestMapping(value = "/delete/{id}")
 	@ResponseBody
-	public JSONObject delete(HttpServletRequest request, HttpServletResponse response, Integer id) throws ServletException, IOException {
-		logger.info("====================调用LinkController-->接口：/delete====================");
+	public JSONObject delete(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException {
+		logger.info("====================调用LinkController-->接口：/delete/{id}====================");
 		int delete = linkService.delete(id);
 		JSONObject json = new JSONObject();
 		json.put("success", true);
@@ -192,16 +193,16 @@ public class LinkController {
 		return json;
 	}
 	
-	@RequestMapping(value="/changeStatus")
-	public String changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用LinkController-->接口：/changeStatus====================");
+	@RequestMapping(value="/changeStatus/{id}")
+	public String changeStatus(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用LinkController-->接口：/changeStatus/{id}====================");
 		linkService.changeStatus(id);
 		return "crud/link/linkList";
 	}
 	
-	@RequestMapping(value="/down")
-	public String down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用LinkController-->接口：/down====================");
+	@RequestMapping(value="/down/{id}")
+	public String down(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用LinkController-->接口：/down/{id}====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
 		java.sql.Date sDate=new java.sql.Date(uDate.getTime());
@@ -231,15 +232,24 @@ public class LinkController {
 	}
 	
 	
-	@RequestMapping(value="/up")
-	public String up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用LinkController-->接口：/up====================");
+	@RequestMapping(value="/up/{id}")
+	public String up(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用LinkController-->接口：/up/{id}====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
 		java.sql.Date sDate=new java.sql.Date(uDate.getTime());
 		String strDate=df.format(sDate);
 		List<Link> linkList = linkService.findById(id);
 		List<Link> findAll = linkService.findSomeBycategoryId(linkList.get(0).getCategoryId());
+		
+		//取出不是直接的链接（article=-1是直接链接）
+		for (Link link : findAll) {
+			if(link.getArticleId()!=-1) {
+				//TODO 这个地方有个bug，没有排除一部分数据
+			}
+		}
+		
+		
 		int[] array=new int[findAll.size()];
 		for(int i=0;i<findAll.size();i++){
 			array[i]=findAll.get(i).getSort();

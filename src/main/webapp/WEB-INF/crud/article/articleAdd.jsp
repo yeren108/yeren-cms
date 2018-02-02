@@ -9,7 +9,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>新增标题</title>
+<title>新增文章</title>
 <meta name="viewport"
 	content="width=device-width, initial-scale=1.0 user-scalable=no">
 <link href="${pageContext.request.contextPath}/static/bootstrap-3.3.5-dist/css/bootstrap.min.css"
@@ -29,9 +29,9 @@
 			</label>
 		</div>
 		<div class="form-group" style="margin:4px;width:100%;">
-			<label style="width: 100px;text-align: right;display: inline-block;">标题：</label>
+			<label style="width: 100px;text-align: right;display: inline-block;">文章：</label>
 			<div style="display: inline-block;">
-				<input type="text" class="form-control" name="name" placeholder="标题" value="${param.name}">
+				<input type="text" class="form-control" name="name" placeholder="文章" value="${param.name}">
 			</div>
 		</div>
 		<div class="form-group" style="margin:4px;width:100%;">

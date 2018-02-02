@@ -171,7 +171,7 @@
 	               'primary': true,
 	               'callback': function() {
 	                  $.ajax({
-						url : "${pageContext.request.contextPath}/link/delete?id="+id,
+						url : "${pageContext.request.contextPath}/link/delete/"+id,
 						type : "GET",
 						data : {},
 						dataType: "json",	
@@ -205,7 +205,7 @@
 	function find() {
 		  $("#tbody").html("");//清除之前的数据
           $.ajax({
-			url : "${pageContext.request.contextPath}/link/find2?attribute="+$("#attribute")[0].value,
+			url : "${pageContext.request.contextPath}/link/find2/"+$("#attribute")[0].value,
 			type : "GET",
 			data : {},
 			dataType: "json",	
@@ -233,17 +233,17 @@
 	
 	//上移
 	function up(id){
-		window.location.href = "${pageContext.request.contextPath}/link/up?id="+id+"";
+		window.location.href = "${pageContext.request.contextPath}/link/up/"+id+"";
 	}
 	
 	//下移
 	function down(id){
-		window.location.href = "${pageContext.request.contextPath}/link/down?id="+id+"";
+		window.location.href = "${pageContext.request.contextPath}/link/down/"+id+"";
 	}
 	
 	//上线下线
 	function statusChange(id){
-		window.location.href = "${pageContext.request.contextPath}/link/changeStatus?id="+id+"";
+		window.location.href = "${pageContext.request.contextPath}/link/changeStatus/"+id+"";
 	}
 
 ////////////////////////////////////////////////////////////site特有的-end////////////////////////////////////////////////////////////

@@ -36,9 +36,9 @@
 			</label>
 		</div>
 		<div class="form-group" style="margin:4px;width:100%;">
-			<label style="width: 100px;text-align: right;display: inline-block;">标题：</label>
+			<label style="width: 100px;text-align: right;display: inline-block;">文章：</label>
 			<div style="display: inline-block;">
-				<input type="text" class="form-control" name="name" placeholder="标题" value="${param.articleName}">
+				<input type="text" class="form-control" name="name" placeholder="文章" value="${param.articleName}">
 			</div>
 		</div>
 		<div class="form-group" style="margin:4px;width:100%;">

@@ -9,24 +9,22 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import sun.print.resources.serviceui;
 
 import com.yeren.cms.modle.Site;
 import com.yeren.cms.service.SiteService;
 import com.yeren.cms.util.PageBean;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping("/site")
@@ -90,9 +88,9 @@ public class SiteController {
 		return "crud/site/siteList";
 	}
 	
-	@RequestMapping(value="/find", method = RequestMethod.GET)
+	@RequestMapping(value="/find/{attribute}", method = RequestMethod.GET)
 	@ResponseBody
-	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response,String attribute){
+	public JSONArray findByAttribute(HttpServletRequest request, HttpServletResponse response,@PathVariable String attribute){
 		logger.info("====================调用SiteController-->接口：/find====================");
 		List<Site> list = siteService.findByAttribute(attribute);
 		JSONArray jsonArray=new JSONArray();
@@ -100,10 +98,10 @@ public class SiteController {
 		return jsonArray;
 	}
 	
-	@RequestMapping(value="/find-{id}", method = RequestMethod.GET)
+	@RequestMapping(value="/find/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public JSONArray findById(HttpServletRequest request, HttpServletResponse response,String id){
-		logger.info("====================调用SiteController-->接口：/find-{id}====================");
+	public JSONArray findById(HttpServletRequest request, HttpServletResponse response,@PathVariable String id){
+		logger.info("====================调用SiteController-->接口：/find/{id}====================");
 		List<Site> list = siteService.findById(Integer.parseInt(id));
 		list.get(0).getName();
 		JSONArray jsonArray=new JSONArray();
@@ -149,10 +147,10 @@ public class SiteController {
 		return "crud/site/siteList";
 	}
 	
-	@RequestMapping(value="/delete")
+	@RequestMapping(value="/delete/{id}")
 	@ResponseBody
-	public JSONObject delete(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用SiteController-->接口：/delete====================");
+	public JSONObject delete(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/delete/{id}====================");
 		int softDelete = siteService.softDelete(id);
 		JSONObject json=new JSONObject();
 		if(softDelete>0){
@@ -165,16 +163,16 @@ public class SiteController {
 		return json;
 	}
 	
-	@RequestMapping(value="/changeStatus")
-	public String changeStatus(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用SiteController-->接口：/changeStatus====================");
+	@RequestMapping(value="/changeStatus/{id}")
+	public String changeStatus(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/changeStatus/{id}====================");
 		siteService.changeStatus(id);
 		return "crud/site/siteList";
 	}
 	
-	@RequestMapping(value="/down")
-	public String down(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用SiteController-->接口：/down====================");
+	@RequestMapping(value="/down/{id}")
+	public String down(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/down/{id}====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
 		java.sql.Date sDate=new java.sql.Date(uDate.getTime());
@@ -204,9 +202,9 @@ public class SiteController {
 	}
 	
 	
-	@RequestMapping(value="/up")
-	public String up(HttpServletRequest request, HttpServletResponse response,Integer id) throws ServletException, IOException{
-		logger.info("====================调用SiteController-->接口：/up====================");
+	@RequestMapping(value="/up/{id}")
+	public String up(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id) throws ServletException, IOException{
+		logger.info("====================调用SiteController-->接口：/up/{id}====================");
 		SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		java.util.Date uDate=new java.util.Date();
 		java.sql.Date sDate=new java.sql.Date(uDate.getTime());
@@ -235,11 +233,4 @@ public class SiteController {
 		return "crud/site/siteList";
 	}
 	
-	
-	
-	public static void main(String[] args) {
-		Date date=new Date(System.currentTimeMillis());
-		String dateStr = new String(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date));
-		System.out.println(dateStr);
-	}
 }

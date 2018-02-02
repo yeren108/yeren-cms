@@ -33,7 +33,7 @@ public interface CategoryService {
 	
 	List<Category> findCategoryByCategory(Integer id);//通过父栏目找所有旗下的子栏目
 	
-	List<Article> findArticleByCategory(Integer id);//通过栏目找所有旗下的标题
+	List<Article> findArticleByCategory(Integer id);//通过栏目找所有旗下的文章
 	
 	List<Link> findLinkByCategory(Integer id);//通过栏目找所有旗下的链接
 	

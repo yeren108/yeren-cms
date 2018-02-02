@@ -26,9 +26,9 @@ public interface ArticleService {
 	
 	List<Article> findByAttribute(String attribute);//模糊查询
 	
-	List<Article> findArticleDataByArticle(Integer id);//通过标题找内容
+	List<Article> findArticleDataByArticle(Integer id);//通过文章找内容
 	
-	List<Article> findLinkByArticle(Integer id);//通过标题找链接
+	List<Article> findLinkByArticle(Integer id);//通过文章找链接
 
 	void update(Article article);
 

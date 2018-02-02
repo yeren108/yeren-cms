@@ -17,7 +17,6 @@ import org.springframework.stereotype.Repository;
 import com.yeren.cms.modle.Article;
 import com.yeren.cms.modle.Category;
 import com.yeren.cms.modle.Link;
-import com.yeren.cms.modle.Site;
 import com.yeren.cms.util.PageBean;
 
 @Repository
@@ -173,9 +172,9 @@ public class CategoryDao {
 			String sql = "SELECT a.* FROM cms_article a JOIN cms_category c ON(c.id=a.category_id) and c.id="+id+" order by sort";
 			org.hibernate.Query query = session.createSQLQuery(sql);
 			list = query.list();
-			logger.info("通过栏目<ID="+id+">查询标题成功");
+			logger.info("通过栏目<ID="+id+">查询文章成功");
 		} catch (RuntimeException e) {
-			logger.info("通过栏目<ID="+id+">查询标题失败");
+			logger.info("通过栏目<ID="+id+">查询文章失败");
 			e.printStackTrace();
 		} finally {
 			session.close();

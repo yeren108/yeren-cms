@@ -11,7 +11,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>标题列表</title>
+<title>文章列表</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -37,7 +37,7 @@
 					      <div class="row" style="text-align: right;margin-left:20%;width: 80%;display: inline-block;">
 					         <div style="display: inline-block;">
 					            <div class="input-group">
-					               <input type="text" id="attribute"  placeholder="标题名称" class="form-control">
+					               <input type="text" id="attribute"  placeholder="文章名称" class="form-control">
 					               <span class="input-group-btn">
 					                  <button class="btn btn-primary" type="button" onclick="find();">
 					                                                                 确定
@@ -56,7 +56,7 @@
 				<thead>
 					<tr>
 						<th width="3%" style="text-align: center;">ID</th><!-- 不变 -->
-						<th width="15%" style="text-align: center;">标题名称</th>
+						<th width="15%" style="text-align: center;">文章名称</th>
 						<th width="15%" style="text-align: center;">栏目</th>
 						<th width="5%" style="text-align: center;">排序</th><!-- 不变 -->
 						<th width="8%" style="text-align: center;">在线状态</th><!-- 不变 -->
@@ -162,7 +162,7 @@
 	               'primary': true,
 	               'callback': function() {
 	                  $.ajax({
-						url : "${pageContext.request.contextPath}/article/delete?id="+id,
+						url : "${pageContext.request.contextPath}/article/delete/"+id+"",
 						type : "GET",
 						data : {},
 						dataType: "json",	
@@ -229,7 +229,7 @@
 	function find() {
 		  $("#tbody").html("");//清除之前的数据
           $.ajax({
-			url : "${pageContext.request.contextPath}/article/find?attribute="+$("#attribute")[0].value,
+			url : "${pageContext.request.contextPath}/article/find/"+$("#attribute")[0].value,
 			type : "GET",
 			data : {},
 			dataType: "json",	
@@ -254,17 +254,17 @@
 	
 	//上移
 	function up(id){
-		window.location.href = "${pageContext.request.contextPath}/article/up?id="+id+"";
+		window.location.href = "${pageContext.request.contextPath}/article/up/"+id+"";
 	}
 	
 	//下移
 	function down(id){
-		window.location.href = "${pageContext.request.contextPath}/article/down?id="+id+"";
+		window.location.href = "${pageContext.request.contextPath}/article/down/"+id+"";
 	}
 	
 	//上线下线
 	function statusChange(id){
-		window.location.href = "${pageContext.request.contextPath}/article/changeStatus?id="+id+"";
+		window.location.href = "${pageContext.request.contextPath}/article/changeStatus/"+id+"";
 	}
 
 ////////////////////////////////////////////////////////////article特有的-end////////////////////////////////////////////////////////////
