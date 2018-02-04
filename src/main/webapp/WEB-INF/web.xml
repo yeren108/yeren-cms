@@ -6,9 +6,9 @@
 
 
 	<display-name>yeren-cms</display-name>
-	<welcome-file-list>
+	<!-- <welcome-file-list>
 		<welcome-file>/WEB-INF/crud/site/siteList.jsp</welcome-file>
-	</welcome-file-list>
+	</welcome-file-list> -->
 
 	<!-- 解决乱码 -->
 	<filter>
@@ -23,6 +23,18 @@
 		<filter-name>encoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
+	
+	
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
 
 	<!-- spring分发 -->
 	<servlet>
@@ -38,14 +50,17 @@
 		<servlet-name>DispatcherServlet</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
+	
+	
+	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:webApplicationContext.xml</param-value>
+		<param-value>classpath:webApplicationContext.xml,classpath:spring-security.xml</param-value>
 	</context-param>
 	<!-- spring分发end -->
 
 	<!-- 日志输出路径start -->
-	<context-param>
+	<!-- <context-param>
 		<param-name>webAppRootKey</param-name>
 		<param-value>webApp.root</param-value>
 	</context-param>
@@ -55,7 +70,10 @@
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
-	</listener>
+	</listener> -->
 	<!-- 日志输出路径end -->
-
+	
+	<listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
 </web-app>
