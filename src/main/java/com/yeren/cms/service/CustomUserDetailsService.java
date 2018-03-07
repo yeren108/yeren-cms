@@ -22,26 +22,14 @@ import com.yeren.cms.modle.DbUser;
  */
 public class CustomUserDetailsService implements UserDetailsService {
 
-	protected static Logger logger = Logger.getLogger("service");
+	protected static Logger logger = Logger.getLogger("CustomUserDetailsService");
 
 	private UserDao userDAO = new UserDao();
 
-	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException, DataAccessException {
-
+	public UserDetails loadUserByUsername(String username)throws UsernameNotFoundException, DataAccessException {
 		UserDetails user = null;
-
 		try {
-
-			// 搜索数据库以匹配用户登录名.
-			// 我们可以通过dao使用JDBC来访问数据库
 			DbUser dbUser = userDAO.getDatabase(username);
-
-			// Populate the Spring User object with details from the dbUser
-			// Here we just pass the username, password, and access level
-			// getAuthorities() will translate the access level to the correct
-			// role type
-
 			user = new User(dbUser.getUsername(), dbUser.getPassword()
 					.toLowerCase(), true, true, true, true,
 					getAuthorities(dbUser.getAccess()));
@@ -61,7 +49,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 	 * @return
 	 */
 	public Collection<GrantedAuthority> getAuthorities(Integer access) {
-
 		List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>(2);
 
 		// 所有的用户默认拥有ROLE_USER权限
@@ -75,7 +62,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 //			authList.add(new GrantedAuthorityImpl("ROLE_ADMIN"));
 			authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
-
 		return authList;
 	}
 }

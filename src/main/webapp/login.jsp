@@ -7,9 +7,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <base href="<%=basePath%>">
     
-    <title>index</title>
+    <title>login</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -21,6 +20,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <a href="site/list_jsp">yeren-cms首页</a>
+	<form action="/" method="post">       
+		<c:if test="${param.error != null}">        
+			<p>
+				Invalid username and password.
+			</p>
+		</c:if>
+		<c:if test="${param.logout != null}">       
+			<p>
+				You have been logged out.
+			</p>
+		</c:if>
+		<p>
+			<label for="username">Username</label>
+			<input type="text" id="username" name="username"/>	
+		</p>
+		<p>
+			<label for="password">Password</label>
+			<input type="password" id="password" name="password"/>	
+		</p>
+		<button type="submit" class="btn">Log in</button>
+	</form>
   </body>
 </html>

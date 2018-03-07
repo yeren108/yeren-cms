@@ -1,7 +1,6 @@
 package com.yeren.cms.modle;
 
 public class DbUser {
-
 	private String username;
 	private String password;
 	private Integer access;

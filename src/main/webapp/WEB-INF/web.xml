@@ -25,7 +25,7 @@
 	</filter-mapping>
 	
 	
-	
+	<!-- springSecurity -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
@@ -55,7 +55,7 @@
 	
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath:webApplicationContext.xml,classpath:spring-security.xml</param-value>
+		<param-value>classpath:spring-security.xml</param-value>
 	</context-param>
 	<!-- spring分发end -->
 
@@ -72,6 +72,8 @@
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener> -->
 	<!-- 日志输出路径end -->
+	
+	<!-- Spring Security会话控制 -->    
 	
 	<listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
