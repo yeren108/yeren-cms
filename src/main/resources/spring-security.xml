@@ -30,9 +30,7 @@
          </security:user-service>
       </security:authentication-provider>
     </security:authentication-manager>
-    
    
-	<bean id="customUserDetailsService" class="com.yeren.cms.service.CustomUserDetailsService"/>
 </beans>
         
 
