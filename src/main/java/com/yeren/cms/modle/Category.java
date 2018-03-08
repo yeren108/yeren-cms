@@ -6,10 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "cms_category")
-public class Category {
+public class Category implements Serializable {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -6,10 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "cms_link")
-public class Link {
+public class Link implements Serializable {
 	@Id
 	@Column
 	@GeneratedValue(strategy = GenerationType.AUTO)

@@ -3,6 +3,7 @@ package com.yeren.cms.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.yeren.cms.dao.LinkDao;
@@ -69,16 +70,19 @@ public class LinkServiceImpl implements LinkService {
 		LinkDao.changeStatus(id);
 	}
 
+	@Cacheable(value="findAl-link", key="(#pb.page)")
 	@Override
 	public List<Link> findAll(Link link, PageBean pb) {
 		return LinkDao.findAll(link, pb);
 	}
 
+	@Cacheable("getSum")
 	@Override
 	public int getSum() {
 		return LinkDao.getSum();
 	}
 
+	@Cacheable(value="findSomeBycategoryId",key = "categoryId")
 	@Override
 	public List<Link> findSomeBycategoryId(Integer categoryId) {
 		return LinkDao.findSomeBycategoryId(categoryId);

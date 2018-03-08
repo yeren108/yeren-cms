@@ -3,6 +3,7 @@ package com.yeren.cms.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.yeren.cms.dao.ArticleDao;
@@ -71,6 +72,7 @@ public class ArticleServiceImpl implements ArticleService{
 		articleDao.changeStatus(id);
 	}
 
+	@Cacheable(value="findAll-article", key="(#pb.page)")
 	@Override
 	public List<Article> findAll(Article article, PageBean pb) {
 		return articleDao.findAll(article, pb);

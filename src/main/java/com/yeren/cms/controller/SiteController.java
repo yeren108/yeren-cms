@@ -98,11 +98,11 @@ public class SiteController {
 		return jsonArray;
 	}
 	
-	@RequestMapping(value="/find/{id}", method = RequestMethod.GET)
+	@RequestMapping(value="/find-/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public JSONArray findById(HttpServletRequest request, HttpServletResponse response,@PathVariable String id){
+	public JSONArray findById(HttpServletRequest request, HttpServletResponse response,@PathVariable Integer id){
 		logger.info("====================调用SiteController-->接口：/find/{id}====================");
-		List<Site> list = siteService.findById(Integer.parseInt(id));
+		List<Site> list = siteService.findById(id);
 		list.get(0).getName();
 		JSONArray jsonArray=new JSONArray();
 		jsonArray.addAll(list);//TODO 要写

@@ -3,6 +3,7 @@ package com.yeren.cms.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Repository;
 
 import com.yeren.cms.dao.CategoryDao;
@@ -33,6 +34,7 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryDao.update(category);
 	}
 
+	@Cacheable(value = "findById",key = "#id")
 	@Override
 	public List<Category> findById(Integer id) {
 		return categoryDao.findById(id);
@@ -48,16 +50,19 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDao.hardDelete(id);
 	}
 
+	@Cacheable(value = "findCategoryByCategory",key = "#id")
 	@Override
 	public List<Category> findCategoryByCategory(Integer id) {
 		return categoryDao.findCategoryByCategory(id);
 	}
 
+	@Cacheable(value = "findArticleByCategory",key = "#id")
 	@Override
 	public List<Article> findArticleByCategory(Integer id) {
 		return categoryDao.findArticleByCategory(id);
 	}
 
+	@Cacheable(value="findLinkByCategory",key = "#id")
 	@Override
 	public List<Link> findLinkByCategory(Integer id) {
 		return categoryDao.findLinkByCategory(id);
@@ -67,7 +72,8 @@ public class CategoryServiceImpl implements CategoryService{
 	public List<Category> findAll() {
 		return categoryDao.findAll();
 	}
-	
+
+	@Cacheable(value="findByAttribute",key = "#attribute")
 	@Override
 	public List<Category> findByAttribute(String attribute) {
 		return categoryDao.findByAttribute(attribute);
@@ -78,6 +84,7 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryDao.changeStatus(id);
 	}
 
+	@Cacheable(value="findAll-category", key="#pb.page")
 	@Override
 	public List<Category> findAll(Category category, PageBean pb) {
 		return categoryDao.findAll(category, pb);
@@ -88,6 +95,7 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDao.getSum();
 	}
 
+	@Cacheable(value = "findSomeBySiteId",key = "#siteId")
 	@Override
 	public List<Category> findSomeBySiteId(Integer siteId) {
 		return categoryDao.findSomeBySiteId(siteId);

@@ -1,6 +1,8 @@
 package com.yeren.cms.modle;
 
-public class DbUser {
+import java.io.Serializable;
+
+public class DbUser implements Serializable {
 	private String username;
 	private String password;
 	private Integer access;

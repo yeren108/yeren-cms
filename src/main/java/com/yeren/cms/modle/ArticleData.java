@@ -4,10 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "cms_article_data")
-public class ArticleData {
+public class ArticleData implements Serializable {
 	@Id
 	@Column
 	private Integer id;
