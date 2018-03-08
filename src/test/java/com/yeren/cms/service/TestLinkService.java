@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.yeren.cms.modle.Link;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring-context-test.xml")
+@ContextConfiguration("classpath:webApplicationContext-test.xml")
 public class TestLinkService {
 	@Autowired
 	@Qualifier("sessionFactory")

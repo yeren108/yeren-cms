@@ -17,7 +17,7 @@ import com.yeren.cms.modle.Link;
 import com.yeren.cms.modle.Site;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:spring-context-test.xml")
+@ContextConfiguration("classpath:webApplicationContext-test.xml")
 public class TestSiteService {
 	@Autowired
 	@Qualifier("sessionFactory")
