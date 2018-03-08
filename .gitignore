@@ -1,6 +1,8 @@
 target/
 .svn/
 
+.idea
+
 bin/
 .metadata/
 .settings/
