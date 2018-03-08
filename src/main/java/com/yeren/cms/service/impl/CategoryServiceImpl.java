@@ -34,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryDao.update(category);
 	}
 
-	@Cacheable(value = "findById",key = "#id")
+	@Cacheable(value = "findById-category",key = "#id")
 	@Override
 	public List<Category> findById(Integer id) {
 		return categoryDao.findById(id);
@@ -73,7 +73,7 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDao.findAll();
 	}
 
-	@Cacheable(value="findByAttribute",key = "#attribute")
+	@Cacheable(value="findByAttribute-category",key = "#attribute")
 	@Override
 	public List<Category> findByAttribute(String attribute) {
 		return categoryDao.findByAttribute(attribute);
@@ -95,7 +95,6 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDao.getSum();
 	}
 
-	@Cacheable(value = "findSomeBySiteId",key = "#siteId")
 	@Override
 	public List<Category> findSomeBySiteId(Integer siteId) {
 		return categoryDao.findSomeBySiteId(siteId);

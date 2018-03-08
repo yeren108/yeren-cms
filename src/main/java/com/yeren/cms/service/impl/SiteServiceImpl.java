@@ -36,7 +36,7 @@ public class SiteServiceImpl implements SiteService{
 		siteDao.update(site);
 	}
 
-	@Cacheable(value="findById",key="#id")
+	@Cacheable(value="findById-site",key="#id")
 	@Override
 	public List<Site> findById(Integer id) {
 		return siteDao.findById(id);
@@ -54,7 +54,6 @@ public class SiteServiceImpl implements SiteService{
 		return siteDao.softDelete(id);
 	}
 
-	@Cacheable("findAll")
 	@Override
 	public List<Site> findAll() {
 		return siteDao.findAll();
@@ -66,13 +65,13 @@ public class SiteServiceImpl implements SiteService{
 		return siteDao.findCategoryBySite(id);
 	}
 
-	@Cacheable(value="findByAttribute",key = "#attribute")
+	@Cacheable(value="findByAttribute-site",key = "#attribute")
 	@Override
 	public List<Site> findByAttribute(String attribute) {
 		return siteDao.findByAttribute(attribute);
 	}
 
-	@Cacheable(value="findNameById",key="#id")
+	@Cacheable(value="findNameById-site",key="#id")
 	@Override
 	public String findNameById(Integer id) {
 		return siteDao.findNameById(id);
@@ -84,13 +83,12 @@ public class SiteServiceImpl implements SiteService{
 		siteDao.changeStatus(id);
 	}
 
-	@Cacheable(value="findAll-site", key="(#pb.page)")
+	@Cacheable(value="findAll-site", key="#pb.page")
 	@Override
 	public List<Site> findAll(Site site, PageBean pb) {
 		return siteDao.findAll(site, pb);
 	}
 
-	@Cacheable("getSum")
 	@Override
 	public int getSum() {
 		return siteDao.getSum();

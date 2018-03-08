@@ -72,7 +72,7 @@ public class ArticleServiceImpl implements ArticleService{
 		articleDao.changeStatus(id);
 	}
 
-	@Cacheable(value="findAll-article", key="(#pb.page)")
+	@Cacheable(value="findAll-article", key="#pb.page")
 	@Override
 	public List<Article> findAll(Article article, PageBean pb) {
 		return articleDao.findAll(article, pb);

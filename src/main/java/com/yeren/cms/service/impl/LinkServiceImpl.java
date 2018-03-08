@@ -70,13 +70,12 @@ public class LinkServiceImpl implements LinkService {
 		LinkDao.changeStatus(id);
 	}
 
-	@Cacheable(value="findAl-link", key="(#pb.page)")
+	@Cacheable(value="findAl-link", key="#pb.page")
 	@Override
 	public List<Link> findAll(Link link, PageBean pb) {
 		return LinkDao.findAll(link, pb);
 	}
 
-	@Cacheable("getSum")
 	@Override
 	public int getSum() {
 		return LinkDao.getSum();
