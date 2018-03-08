@@ -2,6 +2,7 @@ target/
 .svn/
 
 .idea
+*.iml
 
 bin/
 .metadata/
