@@ -6,7 +6,7 @@
 
 <nav class="navbar navbar-default navbar-top" role="navigation">
    <div class="navbar-header">
-      <a class="navbar-brand" href="${pageContext.request.contextPath}/site/list_jsp" style="height: 70px;padding: 25px 23px;font-size: 24px;">yeren-cms-V1.0</a>
+      <a class="navbar-brand" href="${pageContext.request.contextPath}/site/list_jsp" style="height: 70px;padding: 25px 23px;font-size: 24px;">yeren-cms-1.0</a>
       <a class="navbar-brand" style="width: 0px;height:70px;background-color: #FFFFF;padding: 3px;"></a>
    </div>
    <div style="padding: 10px 23px;font-size: 24px;">
