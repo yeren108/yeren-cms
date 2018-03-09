@@ -25,7 +25,7 @@ public interface CategoryService {
 	
 	List<Category> findSomeBySiteId(Integer siteId);
 	
-	List<Category> findAll(Category category,PageBean pb);//查找所有用户
+	List<Category> findAll(PageBean pb);//查找所有用户
 	
 	int getSum();
 	

@@ -62,6 +62,10 @@
 	</bean>
 
 	<!-- redis config start -->
+	<cache:annotation-driven key-generator="userKeyGenerator"/>
+	<bean id="userKeyGenerator" class="com.yeren.cms.util.CacheKeyGenerator"/>
+	<cache:advice id="cacheAdvice" cache-manager="redisCacheManager" key-generator="userKeyGenerator"> </cache:advice>
+
 	<!-- 配置JedisPoolConfig实例 -->
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
 		<property name="maxIdle" value="${redis.maxIdle}" />

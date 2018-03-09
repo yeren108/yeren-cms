@@ -25,7 +25,7 @@ public interface SiteService {
 	
 	List<Site> findAll();//查找所有站点
 	
-	List<Site> findAll(Site site,PageBean pb);//查找所有用户
+	List<Site> findAll(PageBean pb);//查找所有用户
 	
 	int getSum();
 	

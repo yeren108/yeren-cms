@@ -158,7 +158,7 @@ public class LinkDao {
 		return list;
 	}
 	
-	public List<Link> findAll(Link link,PageBean pb) {
+	public List<Link> findAll(PageBean pb) {
 		Session session = sf.openSession();
 		List<Link> list = null;
 		try {

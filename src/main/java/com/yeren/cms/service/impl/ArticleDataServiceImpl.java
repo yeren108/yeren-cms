@@ -3,12 +3,13 @@ package com.yeren.cms.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import com.yeren.cms.dao.ArticleDataDao;
 import com.yeren.cms.modle.ArticleData;
 import com.yeren.cms.service.ArticleDataService;
-
+@Cacheable(value="ArticleDataServiceImpl",keyGenerator = "userKeyGenerator")
 @Service
 public class ArticleDataServiceImpl implements ArticleDataService {
 

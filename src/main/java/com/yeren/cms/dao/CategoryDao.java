@@ -234,7 +234,7 @@ public class CategoryDao {
 		return list;
 	}
 	
-	public List<Category> findAll(Category category,PageBean pb) {
+	public List<Category> findAll(PageBean pb) {
 		Session session = sf.openSession();
 		List<Category> list = null;
 		try {

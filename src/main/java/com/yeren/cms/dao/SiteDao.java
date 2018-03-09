@@ -219,7 +219,7 @@ public class SiteDao {
 		return list;
 	}
 	
-	public List<Site> findAll(Site site,PageBean pb) {
+	public List<Site> findAll(PageBean pb) {
 		Session session = sf.openSession();
 		List<Site> list = null;
 		try {

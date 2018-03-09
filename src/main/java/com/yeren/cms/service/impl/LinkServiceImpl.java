@@ -10,7 +10,7 @@ import com.yeren.cms.dao.LinkDao;
 import com.yeren.cms.modle.Link;
 import com.yeren.cms.service.LinkService;
 import com.yeren.cms.util.PageBean;
-
+@Cacheable(value="LinkServiceImpl",keyGenerator = "userKeyGenerator")
 @Service
 public class LinkServiceImpl implements LinkService {
 	@Autowired
@@ -70,10 +70,10 @@ public class LinkServiceImpl implements LinkService {
 		LinkDao.changeStatus(id);
 	}
 
-	@Cacheable(value="findAl-link", key="#pb.page")
+	@Cacheable(value="LinkServiceImpl",key="#pb.page")
 	@Override
-	public List<Link> findAll(Link link, PageBean pb) {
-		return LinkDao.findAll(link, pb);
+	public List<Link> findAll(PageBean pb) {
+		return LinkDao.findAll(pb);
 	}
 
 	@Override
@@ -81,7 +81,6 @@ public class LinkServiceImpl implements LinkService {
 		return LinkDao.getSum();
 	}
 
-	@Cacheable(value="findSomeBycategoryId",key = "categoryId")
 	@Override
 	public List<Link> findSomeBycategoryId(Integer categoryId) {
 		return LinkDao.findSomeBycategoryId(categoryId);

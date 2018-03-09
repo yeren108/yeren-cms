@@ -83,8 +83,7 @@ public class LinkController {
 		int sum = linkService.getSum();//总量
 		
 		PageBean pb=new PageBean(Integer.parseInt(page), Integer.parseInt(rows));
-		Link link=new Link();//暂时不用
-		List<Link> list = linkService.findAll(link, pb);
+		List<Link> list = linkService.findAll(pb);
 		
 		List<LinkVO> linkVoList = LinkConverter.convert2Vo(list);
 		Map<String, String> map = new HashMap<String, String>();

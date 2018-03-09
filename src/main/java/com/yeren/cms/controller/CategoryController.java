@@ -82,8 +82,7 @@ public class CategoryController {
 		int sum = categoryService.getSum();//总量
 		
 		PageBean pb=new PageBean(Integer.parseInt(page), Integer.parseInt(rows));
-		Category category=new Category();//暂时不用
-		List<Category> list = categoryService.findAll(category, pb);
+		List<Category> list = categoryService.findAll(pb);
 		
 		
 		List<CategoryVo> categoryVoList = CategoryConverter.convert2Vo(list);

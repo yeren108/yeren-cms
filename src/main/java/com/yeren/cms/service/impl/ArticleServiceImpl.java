@@ -11,6 +11,7 @@ import com.yeren.cms.modle.Article;
 import com.yeren.cms.modle.Link;
 import com.yeren.cms.service.ArticleService;
 import com.yeren.cms.util.PageBean;
+@Cacheable(value="ArticleServiceImpl",keyGenerator = "userKeyGenerator")
 @Service
 public class ArticleServiceImpl implements ArticleService{
 	
@@ -72,10 +73,10 @@ public class ArticleServiceImpl implements ArticleService{
 		articleDao.changeStatus(id);
 	}
 
-	@Cacheable(value="findAll-article", key="#pb.page")
+	@Cacheable(value="ArticleServiceImpl",key="#pb.page")
 	@Override
-	public List<Article> findAll(Article article, PageBean pb) {
-		return articleDao.findAll(article, pb);
+	public List<Article> findAll(PageBean pb) {
+		return articleDao.findAll(pb);
 	}
 
 	@Override

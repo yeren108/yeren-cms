@@ -73,8 +73,7 @@ public class SiteController {
 		int sum = siteService.getSum();//总量
 		
 		PageBean pb=new PageBean(Integer.parseInt(page), Integer.parseInt(rows));
-		Site site=new Site();//暂时不用
-		List<Site> list = siteService.findAll(site, pb);
+		List<Site> list = siteService.findAll(pb);
 		JSONArray jsonArray=new JSONArray();
 		jsonArray.addAll(list);
 		JSONObject jsonObject=new JSONObject();

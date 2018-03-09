@@ -94,8 +94,7 @@ public class ArticleController {
 		int sum = articleService.getSum();//总量
 		
 		PageBean pb=new PageBean(Integer.parseInt(page), Integer.parseInt(rows));
-		Article article=new Article();//暂时不用
-		List<Article> list = articleService.findAll(article, pb);
+		List<Article> list = articleService.findAll(pb);
 		
 		
 		List<ArticleVo> ArticleVoList = ArticleConverter.convert2Vo(list);

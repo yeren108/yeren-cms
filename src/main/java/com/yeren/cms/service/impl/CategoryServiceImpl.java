@@ -14,6 +14,7 @@ import com.yeren.cms.modle.Site;
 import com.yeren.cms.service.CategoryService;
 import com.yeren.cms.util.PageBean;
 
+@Cacheable(value="CategoryServiceImpl",keyGenerator = "userKeyGenerator")
 @Repository
 public class CategoryServiceImpl implements CategoryService{
 	@Autowired
@@ -34,7 +35,6 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryDao.update(category);
 	}
 
-	@Cacheable(value = "findById-category",key = "#id")
 	@Override
 	public List<Category> findById(Integer id) {
 		return categoryDao.findById(id);
@@ -50,19 +50,16 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDao.hardDelete(id);
 	}
 
-	@Cacheable(value = "findCategoryByCategory",key = "#id")
 	@Override
 	public List<Category> findCategoryByCategory(Integer id) {
 		return categoryDao.findCategoryByCategory(id);
 	}
 
-	@Cacheable(value = "findArticleByCategory",key = "#id")
 	@Override
 	public List<Article> findArticleByCategory(Integer id) {
 		return categoryDao.findArticleByCategory(id);
 	}
 
-	@Cacheable(value="findLinkByCategory",key = "#id")
 	@Override
 	public List<Link> findLinkByCategory(Integer id) {
 		return categoryDao.findLinkByCategory(id);
@@ -73,7 +70,6 @@ public class CategoryServiceImpl implements CategoryService{
 		return categoryDao.findAll();
 	}
 
-	@Cacheable(value="findByAttribute-category",key = "#attribute")
 	@Override
 	public List<Category> findByAttribute(String attribute) {
 		return categoryDao.findByAttribute(attribute);
@@ -84,10 +80,10 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryDao.changeStatus(id);
 	}
 
-	@Cacheable(value="findAll-category", key="#pb.page")
+	@Cacheable(value="CategoryServiceImpl",key="#pb.page")
 	@Override
-	public List<Category> findAll(Category category, PageBean pb) {
-		return categoryDao.findAll(category, pb);
+	public List<Category> findAll(PageBean pb) {
+		return categoryDao.findAll(pb);
 	}
 
 	@Override

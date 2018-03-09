@@ -20,7 +20,7 @@ public interface ArticleService {
 	
 	List<Article> findSomeBycategoryId(Integer categoryId);
 	
-	List<Article> findAll(Article article,PageBean pb);//查找所有用户
+	List<Article> findAll(PageBean pb);//查找所有用户
 	
 	int getSum();
 	

@@ -162,7 +162,7 @@ public class ArticleDao {
 		return list;
 	}
 	
-	public List<Article> findAll(Article article,PageBean pb) {
+	public List<Article> findAll(PageBean pb) {
 		Session session = sf.openSession();
 		List<Article> list = null;
 		try {

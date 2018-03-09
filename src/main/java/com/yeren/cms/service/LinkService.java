@@ -25,7 +25,7 @@ public interface LinkService {
 	
 	List<Link> findSomeBycategoryId(Integer categoryId);
 	
-	List<Link> findAll(Link link,PageBean pb);//查找所有用户
+	List<Link> findAll(PageBean pb);//查找所有用户
 	
 	int getSum();
 	
