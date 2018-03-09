@@ -19,8 +19,8 @@
 	<context:component-scan base-package="com.yeren" />
 	<mvc:annotation-driven />
 	<mvc:resources mapping="/static/**" location="/static/"/>
-	<cache:annotation-driven cache-manager="redisCacheManager" />
-	
+
+	<!--配置数据转换器-->
     <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">  
         <property name="supportedMediaTypes">  
             <list>  
@@ -34,6 +34,7 @@
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/" p:suffix=".jsp" />
 
+	<!--配置数据源-->
 	<!-- <bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
 		p:url="jdbc:mysql://10.25.83.47:3306/yeren_cms" p:driverClassName="com.mysql.jdbc.Driver"
@@ -44,15 +45,26 @@
 		p:url="jdbc:mysql://47.100.48.230:3306/yeren_cms" p:driverClassName="com.mysql.jdbc.Driver"
 		p:username="root" p:password="123456Ab$" />
 
+	<!--配置session工厂-->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
 		p:dataSource-ref="dataSource" p:packagesToScan="com.yeren"
 		p:hibernateProperties="/hibernate.properties" />
 
+	<!--配置事物管理器-->
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate5.HibernateTransactionManager"
 		p:sessionFactory-ref="sessionFactory" />
 
+
+
+	<!-- redis config start -->
+
+	<cache:annotation-driven cache-manager="redisCacheManager" />
+	<cache:annotation-driven key-generator="userKeyGenerator"/>
+	<cache:advice id="cacheAdvice" cache-manager="redisCacheManager" key-generator="userKeyGenerator"> </cache:advice>
+
+	<!--redis配置文件-->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
@@ -61,10 +73,8 @@
 		</property>
 	</bean>
 
-	<!-- redis config start -->
-	<cache:annotation-driven key-generator="userKeyGenerator"/>
+	<!--自定义key生成策略-->
 	<bean id="userKeyGenerator" class="com.yeren.cms.util.CacheKeyGenerator"/>
-	<cache:advice id="cacheAdvice" cache-manager="redisCacheManager" key-generator="userKeyGenerator"> </cache:advice>
 
 	<!-- 配置JedisPoolConfig实例 -->
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
@@ -72,7 +82,6 @@
 		<property name="maxTotal" value="${redis.maxActive}" />
 		<property name="maxWaitMillis" value="${redis.maxWait}" />
 		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
-
 	</bean>
 
 	<!-- 配置JedisConnectionFactory -->
