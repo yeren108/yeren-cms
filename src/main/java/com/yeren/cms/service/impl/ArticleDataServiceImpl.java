@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.yeren.cms.dao.ArticleDataDao;
 import com.yeren.cms.modle.ArticleData;
 import com.yeren.cms.service.ArticleDataService;
-@Cacheable(value="ArticleDataServiceImpl",keyGenerator = "userKeyGenerator")
+//@Cacheable(value="ArticleDataServiceImpl",keyGenerator = "userKeyGenerator")
 @Service
 public class ArticleDataServiceImpl implements ArticleDataService {
 

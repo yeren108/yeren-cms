@@ -12,7 +12,7 @@ import com.yeren.cms.modle.Category;
 import com.yeren.cms.modle.Site;
 import com.yeren.cms.service.SiteService;
 import com.yeren.cms.util.PageBean;
-@Cacheable(value="SiteServiceImpl",keyGenerator = "userKeyGenerator")
+//@Cacheable(value="SiteServiceImpl",keyGenerator = "userKeyGenerator")
 @Service
 public class SiteServiceImpl implements SiteService{
 	
@@ -74,7 +74,7 @@ public class SiteServiceImpl implements SiteService{
 		siteDao.changeStatus(id);
 	}
 
-	@Cacheable(value="SiteServiceImpl",key="#pb.page")
+	//@Cacheable(value="SiteServiceImpl",key="#pb.page")
 	@Override
 	public List<Site> findAll( PageBean pb) {
 		return siteDao.findAll(pb);

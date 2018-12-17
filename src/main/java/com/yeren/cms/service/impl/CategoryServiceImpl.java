@@ -14,7 +14,7 @@ import com.yeren.cms.modle.Site;
 import com.yeren.cms.service.CategoryService;
 import com.yeren.cms.util.PageBean;
 
-@Cacheable(value="CategoryServiceImpl",keyGenerator = "userKeyGenerator")
+//@Cacheable(value="CategoryServiceImpl",keyGenerator = "userKeyGenerator")
 @Repository
 public class CategoryServiceImpl implements CategoryService{
 	@Autowired
@@ -80,7 +80,7 @@ public class CategoryServiceImpl implements CategoryService{
 		categoryDao.changeStatus(id);
 	}
 
-	@Cacheable(value="CategoryServiceImpl",key="#pb.page")
+	//@Cacheable(value="CategoryServiceImpl",key="#pb.page")
 	@Override
 	public List<Category> findAll(PageBean pb) {
 		return categoryDao.findAll(pb);

@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Link implements Serializable {
 	@Id
 	@Column
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@Column
 	private String name;

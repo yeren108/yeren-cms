@@ -42,8 +42,8 @@
 		
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:url="jdbc:mysql://47.100.48.230:3306/yeren_cms" p:driverClassName="com.mysql.jdbc.Driver"
-		p:username="root" p:password="123456Ab$" />
+		p:url="jdbc:mysql://localhost:3306/yeren_cms" p:driverClassName="com.mysql.jdbc.Driver"
+		p:username="root" p:password="root123" />
 
 	<!--配置session工厂-->
 	<bean id="sessionFactory"
@@ -61,8 +61,8 @@
 	<!-- redis config start -->
 
 	<cache:annotation-driven cache-manager="redisCacheManager" />
-	<cache:annotation-driven key-generator="userKeyGenerator"/>
-	<cache:advice id="cacheAdvice" cache-manager="redisCacheManager" key-generator="userKeyGenerator"> </cache:advice>
+	<!--<cache:annotation-driven key-generator="userKeyGenerator"/>-->
+	<cache:advice id="cacheAdvice" cache-manager="redisCacheManager" > </cache:advice>
 
 	<!--redis配置文件-->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -74,7 +74,7 @@
 	</bean>
 
 	<!--自定义key生成策略-->
-	<bean id="userKeyGenerator" class="com.yeren.cms.util.CacheKeyGenerator"/>
+	<!--<bean id="userKeyGenerator" class="com.yeren.cms.util.CacheKeyGenerator"/>-->
 
 	<!-- 配置JedisPoolConfig实例 -->
 	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">

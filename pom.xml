@@ -76,6 +76,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
 			<version>3.1.0</version>
 		</dependency>
 
@@ -132,6 +133,7 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
+			<scope>provided</scope>
 			<version>1.2</version>
 			<type>jar</type>
 		</dependency>
@@ -154,6 +156,7 @@
 
 	</dependencies>
 	<build>
+		<finalName>cms</finalName>
 		<plugins>  
 		    <plugin>  
 		        <groupId>org.apache.maven.plugins</groupId>  
@@ -175,7 +178,18 @@
 					<source>1.8</source> 
 					<target>1.8</target>
 				</configuration>
-				</plugin>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<path>/cms</path>
+					<port>8080</port>
+					<uriEncoding>UTF-8</uriEncoding>
+					<server>tomcat7</server>
+				</configuration>
+			</plugin>
 		</plugins> 
 	</build>
 </project>

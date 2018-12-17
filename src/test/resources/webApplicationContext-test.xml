@@ -12,8 +12,8 @@
 
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:url="jdbc:mysql://47.100.48.230:3306/yeren_cms" p:driverClassName="com.mysql.jdbc.Driver"
-		p:username="root" p:password="123456Ab$" />
+		p:url="jdbc:mysql://localhost:3306/yeren_cms" p:driverClassName="com.mysql.jdbc.Driver"
+		p:username="root" p:password="root123" />
 		
 
 	<bean id="sessionFactory"
