@@ -30,7 +30,7 @@ public class UserDao {
 
 		user = new DbUser();
 		user.setUsername("admin");
-		user.setPassword("admin");
+		user.setPassword("admin@cms");
 		user.setAccess(1);
 		users.add(user);
 		

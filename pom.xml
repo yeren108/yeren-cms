@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
 	<dependencies>
@@ -190,6 +191,51 @@
 					<server>tomcat7</server>
 				</configuration>
 			</plugin>
-		</plugins> 
+		</plugins>
+		<!--打包之后不包含env-->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<excludes>
+					<exclude>**/env/**</exclude>
+				</excludes>
+			</resource>
+		</resources>
 	</build>
+
+	<profiles>
+		<!--开发环境-->
+		<profile>
+			<id>dev</id>
+			<!-- 项目日志配置 -->
+			<!-- <properties>
+				<maven.log.output.directory>${catalina.home}/logs/${project.artifactId}</maven.log.output.directory>
+            </properties>-->
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/env/dev</directory>
+					</resource>
+				</resources>
+			</build>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<!--生产环境-->
+			<id>prod</id>
+			<!-- <properties>
+				<maven.log.output.directory>${catalina.home}/logs/${project.artifactId}</maven.log.output.directory>
+            </properties>-->
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources/env/prod</directory>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+	</profiles>
 </project>

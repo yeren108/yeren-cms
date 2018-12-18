@@ -35,15 +35,10 @@
 		p:prefix="/WEB-INF/" p:suffix=".jsp" />
 
 	<!--配置数据源-->
-	<!-- <bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:url="jdbc:mysql://10.25.83.47:3306/yeren_cms" p:driverClassName="com.mysql.jdbc.Driver"
-		p:username="root" p:password="Root1234@" /> -->
-		
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-		p:url="jdbc:mysql://localhost:3306/yeren_cms" p:driverClassName="com.mysql.jdbc.Driver"
-		p:username="root" p:password="root123" />
+		p:url="${spring.datasource.url}" p:driverClassName="com.mysql.jdbc.Driver"
+		p:username="${spring.datasource.username}" p:password="${spring.datasource.password}" />
 
 	<!--配置session工厂-->
 	<bean id="sessionFactory"
@@ -59,16 +54,16 @@
 
 
 	<!-- redis config start -->
-
 	<cache:annotation-driven cache-manager="redisCacheManager" />
 	<!--<cache:annotation-driven key-generator="userKeyGenerator"/>-->
 	<cache:advice id="cacheAdvice" cache-manager="redisCacheManager" > </cache:advice>
 
-	<!--redis配置文件-->
+	<!--配置文件-->
 	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
 				<value>classpath:redis.properties</value>
+				<value>classpath:config/config-${environment}.properties</value>
 			</list>
 		</property>
 	</bean>
