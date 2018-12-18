@@ -63,7 +63,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:redis.properties</value>
-				<value>classpath:config/config-${environment}.properties</value>
+				<value>classpath:config.properties</value>
 			</list>
 		</property>
 	</bean>

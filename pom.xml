@@ -157,7 +157,7 @@
 
 	</dependencies>
 	<build>
-		<finalName>cms</finalName>
+		<finalName>ROOT</finalName>
 		<plugins>  
 		    <plugin>  
 		        <groupId>org.apache.maven.plugins</groupId>  
@@ -185,7 +185,7 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<path>/cms</path>
+					<path>/</path>
 					<port>8080</port>
 					<uriEncoding>UTF-8</uriEncoding>
 					<server>tomcat7</server>
